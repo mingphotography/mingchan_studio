@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ming Chan | Orchestrating Timeless Narratives</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <style>
+        /* ==========================================
+           [GLOBAL VARIABLES & RESET]
+           ========================================== */
+        :root { 
+            --bg-beige: #F9F7F2; 
+            --white: #ffffff; 
+            --text-dark: #1a1a1a; 
+            --transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+        body { background: var(--bg-beige); color: var(--text-dark); font-family: 'Montserrat', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+        a { text-decoration: none; color: inherit; }
+
+        /* ==========================================
+           [NAVIGATION & UI ELEMENTS]
+           ========================================== */
+        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 10px 50px; z-index: 998; transition: transform 0.6s var(--transition); background: rgba(249, 247, 242, 0.7); backdrop-filter: blur(10px); }
+        .nav-up { transform: translateY(-100%); }
+        .logo-box img { height: 85px; width: auto; mix-blend-mode: multiply; display: block; }
+
+        .ui-circle { position: fixed; width: 50px; height: 50px; background: rgba(0, 0, 0, 0.05); backdrop-filter: blur(12px); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; z-index: 1001; transition: 0.4s; border: 1px solid rgba(0,0,0,0.05); }
+        .ui-circle:hover { background: #000; }
+        .menu-toggle-fixed { top: 25px; right: 40px; }
+        .bar { width: 20px; height: 1px; background-color: #000; margin: 3px 0; transition: 0.4s; }
+        .ui-circle:hover .bar { background-color: #fff; }
+        .change .bar:nth-child(1) { transform: rotate(-45deg) translate(-4px, 5px); }
+        .change .bar:nth-child(2) { transform: rotate(45deg) translate(-3px, -5px); }
+
+        #backToTop { bottom: 35px; right: 40px; display: none; }
+        .up-arrow { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 200; color: #000; line-height: 1; margin-top: -4px; transition: 0.4s; }
+        #backToTop:hover .up-arrow { color: #fff; }
+
+        /* Menu Overlay */
+        .overlay-menu { height: 100%; width: 0; position: fixed; z-index: 1000; top: 0; right: 0; background-color: rgba(249, 247, 242, 0.98); backdrop-filter: blur(15px); overflow-x: hidden; transition: 0.3s var(--transition); display: flex; align-items: center; justify-content: center; }
+        .overlay-content a { padding: 20px; font-size: 14px; font-weight: 300; color: #999; display: block; transition: 0.3s; letter-spacing: 7px; text-transform: uppercase; }
+        .overlay-content a:hover { color: #000; letter-spacing: 9px; }
+
+        /* ==========================================
+           [SECTIONS TYPOGRAPHY & LAYOUTS]
+           ========================================== */
+        .section-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; text-align: center; }
+        
+        /* Hero */
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding-top: 100px; }
+        .hero-img-box { width: 85%; height: 78vh; overflow: hidden; position: relative; box-shadow: 0 40px 100px rgba(0,0,0,0.05); }
+        .hero-img-box::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 40%; background: linear-gradient(to top, rgba(249, 247, 242, 0.8), transparent); pointer-events: none; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; object-fit: cover; transition: opacity 2s ease; }
+        .slide.active { opacity: 1; }
+        .hero-title { text-align: center; width: 100%; z-index: 2; position: absolute; bottom: 15%; pointer-events: none; }
+        .hero-title h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(34px, 8vw, 85px); font-weight: 300; font-style: italic; margin-bottom: 15px; }
+        .slogan { font-size: 10px; letter-spacing: 4px; color: #444; max-width: 650px; margin: 0 auto; text-transform: uppercase; line-height: 1.8; }
+
+        /* The Perspective */
+        .profile-section { padding: 120px 10%; display: grid; grid-template-columns: 0.5fr 1.5fr; gap: 100px; background: #fff; align-items: center; }
+        .profile-image-wrap { width: 100%; max-width: 280px; margin-left: auto; }
+        .profile-image-wrap img { width: 100%; height: auto; display: block; filter: grayscale(100%); }
+        .profile-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-style: italic; font-weight: 300; margin-bottom: 30px; border-bottom: 1px solid #f4f4f4; padding-bottom: 20px; }
+        .profile-text p { font-size: 15px; line-height: 2.2; text-align: justify; margin-bottom: 25px; color: #333; }
+        .profile-text p:first-of-type::first-letter { font-family: 'Cormorant Garamond', serif; float: left; font-size: 80px; line-height: 0.7; padding-right: 15px; margin-top: 5px; color: #000; font-style: italic; }
+
+        /* Services (Cleaned up from Inline styles) */
+        .services-section { padding: 120px 10%; background: #fff; border-top: 1px solid #f4f4f4; }
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px 80px; max-width: 1200px; margin: 80px auto 0; text-align: left; }
+        .service-card { border-top: 1px solid #eee; padding-top: 25px; }
+        .service-card b { font-size: 10px; letter-spacing: 2px; color: #aaa; display: block; margin-bottom: 15px; }
+        .service-card p { font-size: 14px; line-height: 2; color: #444; font-weight: 300; text-align: justify; }
+
+        /* Portfolio */
+        .work-section { padding-bottom: 120px; }
+        .portfolio-main-hub { display: flex; flex-direction: column; gap: 40px; padding: 60px 5%; max-width: 1400px; margin: 0 auto; transition: opacity 0.3s ease; }
+        .hub-cover-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 40px; cursor: pointer; transition: 0.4s; }
+        .hub-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 6vw, 65px); font-weight: 300; font-style: italic; letter-spacing: 2px; transition: 0.4s; }
+        .hub-img-wrap { width: 55%; height: 35vh; overflow: hidden; border-radius: 2px; }
+        .hub-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: transform var(--transition), filter 0.8s ease; }
+        
+        .hub-cover-item:hover .hub-title { letter-spacing: 4px; color: #888; }
+        .hub-cover-item:hover .hub-img-wrap img { filter: grayscale(0%); transform: scale(1.03); }
+        
+        /* Gallery Sub-filters & Grid */
+        .sub-filter-btn { background: none; border: none; font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #aaa; cursor: pointer; padding: 8px 20px; transition: 0.4s; }
+        .sub-filter-btn.active { color: #000; font-weight: 400; }
+        
+        #gallery-images-ajax.story-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 50px 35px; width: 85%; margin: 0 auto; padding: 30px 0; transition: opacity 0.3s ease; }
+        #gallery-images-ajax .span-12 { grid-column: span 12; }
+        #gallery-images-ajax .span-7  { grid-column: span 7; }
+        #gallery-images-ajax .span-5  { grid-column: span 5; margin-top: 60px; }
+        
+        .v3-work-item { position: relative; cursor: pointer; overflow: hidden; }
+        .v3-work-item img { width: 100%; height: auto; display: block; filter: grayscale(100%); transition: filter 0.8s ease, transform var(--transition); }
+        .v3-work-item:hover img { filter: grayscale(0%); transform: scale(1.02); }
+        .v3-meta-box { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 15px; opacity: 0; transform: translateY(5px); transition: all 0.5s ease; }
+        .v3-work-item:hover .v3-meta-box { opacity: 1; transform: translateY(0); }
+        .v3-title { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; font-weight: 300; }
+        .v3-loc { font-size: 9px; letter-spacing: 2px; color: #888; text-transform: uppercase; }
+
+        /* Journal */
+        .journal-section { padding: 120px 0; background: #fff; text-align: center; border-top: 1px solid #f4f4f4; }
+        .journal-subtitle { font-size: 11px; letter-spacing: 3px; color: #888; text-transform: uppercase; margin: 20px 0 80px; }
+        .journal-grid { max-width: 1200px; margin: 0 auto; padding: 0 5%; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+
+        /* Voices */
+        .voices-section { padding: 150px 5%; background: var(--white); text-align: center; }
+        .voices-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; margin-bottom: 60px; }
+        .slider-wrapper { max-width: 900px; margin: 0 auto; position: relative; padding: 0 60px; min-height: 350px; display: flex; flex-direction: column; justify-content: center; }
+        .voice-slide { display: none; width: 100%; }
+        .voice-slide.active { display: block; }
+        .voice-slide p { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 3vw, 34px); font-style: italic; line-height: 1.6; margin-bottom: 30px; }
+        .voice-author { font-size: 10px; letter-spacing: 3px; color: #888; text-transform: uppercase; }
+        .slider-nav { position: absolute; top: 50%; left: 0; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); pointer-events: none; }
+        .nav-arrow { width: 40px; height: 40px; cursor: pointer; pointer-events: auto; background: none; border: none; font-size: 28px; color: #ddd; transition: 0.3s; font-family: serif; }
+        .nav-arrow:hover { color: #000; }
+        .slider-dots { margin-top: 40px; display: flex; justify-content: center; gap: 12px; }
+        .dot { width: 6px; height: 6px; background: #eee; border-radius: 50%; cursor: pointer; transition: 0.3s; }
+        .dot.active { background: #000; width: 15px; border-radius: 10px; }
+
+        /* Inquiry Form */
+        .form-section { padding: 60px 10%; background: #fff; border-top: 1px solid #f4f4f4; text-align: center; }
+        .form-container { max-width: 800px; margin: 0 auto; }
+        .ming-form { margin-top: 40px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
+        .form-full { grid-column: span 2; }
+        .ming-form label { font-size: 8px; letter-spacing: 2px; color: #777; margin-bottom: 8px; display: block; text-transform: uppercase; font-weight: 300; }
+        .ming-form input, .ming-form select, .ming-form textarea { width: 100%; padding: 8px 0; margin-bottom: 15px; border: none; border-bottom: 1px solid #ddd; background: transparent; font-family: inherit; font-size: 11px; letter-spacing: 1px; outline: none; transition: 0.4s; border-radius: 0; }
+        .ming-form input:focus, .ming-form textarea:focus { border-bottom: 1px solid #1a1a1a; }
+        .submit-btn { width: 100%; background: #000; color: #fff; padding: 16px; border: none; letter-spacing: 6px; cursor: pointer; transition: 0.5s; font-size: 9px; margin-top: 15px; text-transform: uppercase; }
+        .submit-btn:hover { background: #333; }
+
+        /* Footer & Cookie Banner */
+        footer { padding: 100px 5% 50px; text-align: center; background: var(--bg-beige); border-top: 1px solid #eee; }
+        .social-links { display: flex; justify-content: center; gap: 60px; margin-bottom: 50px; }
+        .social-links a { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .social-links img { width: 28px; height: 28px; filter: grayscale(100%); transition: 0.3s; }
+        .social-links a:hover img { filter: grayscale(0%); transform: scale(1.1); }
+        
+        #cookieBanner { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #eee; padding: 20px; z-index: 9999; display: none; justify-content: center; align-items: center; gap: 30px; font-size: 11px; box-shadow: 0 -10px 30px rgba(0,0,0,0.05); }
+        #cookieBanner button { background: #000; color: #fff; border: none; padding: 10px 30px; cursor: pointer; letter-spacing: 2px; transition: 0.3s; }
+        #cookieBanner button:hover { background: #333; }
+
+        /* ==========================================
+           [MOBILE RESPONSIVE] 
+           ========================================== */
+        @media (max-width: 767px) {
+            nav { padding: 15px 30px; }
+            .logo-box img { height: 60px; }
+            
+            .profile-section { grid-template-columns: 1fr; padding: 60px 8%; gap: 40px; }
+            .profile-image-wrap { max-width: 65%; width: 65%; margin: 0 auto; }
+            .profile-text p { text-align: left; font-size: 14px; line-height: 2.0; }
+            .profile-text p:first-of-type::first-letter { font-size: 60px; line-height: 0.8; }
+
+            .services-grid { grid-template-columns: 1fr; gap: 45px; margin-top: 40px; }
+            .service-card { border-top: 1px solid #1a1a1a; padding-top: 20px; }
+            .service-card b { font-size: 12px; color: #000; }
+            .service-card p { text-align: left; font-size: 13px; line-height: 1.9; }
+
+            .portfolio-main-hub { padding: 40px 6%; gap: 30px; }
+            .hub-cover-item { flex-direction: column; align-items: flex-start; padding-bottom: 30px; }
+            .hub-title { font-size: 28px; margin-bottom: 15px; }
+            .hub-img-wrap { width: 100%; height: 25vh; }
+
+            .sub-filters-container { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 15px 5%; margin-bottom: 25px; scrollbar-width: none; }
+            .sub-filters-container::-webkit-scrollbar { display: none; }
+            .sub-filter-btn { flex: 0 0 auto; padding: 10px 18px; font-size: 11px; }
+
+            #gallery-images-ajax.story-grid { grid-template-columns: repeat(2, 1fr); gap: 25px 20px; width: 92%; }
+            #gallery-images-ajax .span-12, #gallery-images-ajax .span-7, #gallery-images-ajax .span-5 { grid-column: span 1; margin-top: 0; }
+            #gallery-images-ajax .v3-work-item:nth-child(even) { margin-top: 25px; }
+            .v3-meta-box { flex-direction: column; align-items: flex-start; gap: 4px; opacity: 1; transform: none; }
+            
+            .journal-grid .work-item { flex-direction: column !important; gap: 20px; margin-bottom: 50px; }
+            .journal-grid .journal-img-wrap { width: 100% !important; height: 28vh !important; }
+            .journal-grid .journal-text-wrap { width: 100% !important; padding: 0 !important; text-align: left !important; }
+            .journal-grid h3 { font-size: 22px; margin-bottom: 10px; }
+
+            .slider-wrapper { padding: 0 25px; min-height: 280px; }
+            .slider-nav { justify-content: space-between; }
+            .nav-arrow { font-size: 22px; width: 30px; color: #1a1a1a; }
+            
+            .form-grid { grid-template-columns: 1fr; }
+            .form-full { grid-column: span 1; }
+            #cookieBanner { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="mainNav">
+    <div class="logo-box"><img src="images/logo.jpeg" alt="MING CHAN"></div>
+</nav>
+
+<div class="ui-circle menu-toggle-fixed" onclick="toggleMenu()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
+
+<div id="backToTop" class="ui-circle" onclick="scrollToTop()">
+    <span class="up-arrow">∧</span>
+</div>
+
+<div id="fullScreenMenu" class="overlay-menu">
+    <div class="overlay-content">
+        <a href="#about" onclick="toggleMenu()">THE PERSPECTIVE</a>
+        <a href="#services" onclick="toggleMenu()">SERVICES</a>
+        <a href="#work" onclick="toggleMenu()">PORTFOLIO</a>
+        <a href="#journal" onclick="toggleMenu()">JOURNAL</a>
+        <a href="#kind-words" onclick="toggleMenu()">VOICES</a>
+        <a href="#inquiry" onclick="toggleMenu()">INQUIRY</a>
+    </div>
+</div>
+
+<section class="hero">
+    <div class="hero-img-box" id="heroSlider">
+        <img src="images/hero-1.jpeg" class="slide active">
+        <img src="images/hero-2.jpeg" class="slide">
+        <img src="images/hero-3.jpeg" class="slide">
+    </div>
+    <div class="hero-title">
+        <h1>Orchestrating Stillness</h1>
+        <p class="slogan">Orchestrating timeless luxury weddings and high-impact commercial narratives with artistic precision.</p>
+    </div>
+</section>
+
+<section id="about" class="profile-section">
+    <div class="profile-image-wrap"><img src="images/ming-portrait.jpeg" alt="Ming Chan"></div>
+    <div class="profile-text">
+        <h2>The Perspective</h2>
+        <p>From the quiet intensity of film sets in Hong Kong to the raw, honest narratives of life in the UK. Ming Chan brings over two decades of expertise to every frame, specializing in the orchestration of light, shadow, and unscripted soul.</p>
+        <p>As a former Canon Pro Ambassador (HK), Ming’s visual language is refined through the demands of cinematic storytelling. He believes the most profound moments are not staged, but observed—translating fleeting emotions into timeless visual stories.</p>
+    </div>
+</section>
+
+<section id="services" class="services-section">
+    <h2 class="section-title">Curated Services</h2>
+    <div id="services-grid-box" class="services-grid">
+        <div class="service-card">
+            <b>01 / WEDDING & PRE-WEDDING</b>
+            <p>Orchestrating timeless romance through a cinematic documentary lens. From the raw, unscripted emotions of your Wedding Day in the UK or Hong Kong, to meticulously curated Pre-Wedding and Destination sessions worldwide, we translate your unique love story into enduring visual heirlooms.</p>
+        </div>
+        <div class="service-card">
+            <b>02 / PORTRAITS & CELEBRATIONS</b>
+            <p>Preserving the profound chapters of life with intimacy and stillness. Specializing in legacy Family milestones, editorial Graduation portraits, and maternal visual storytelling. We capture the honest essence of who you are in moments of unhurried grace.</p>
+        </div>
+        <div class="service-card">
+            <b>03 / FASHION & ADVERTISING EDITORIAL</b>
+            <p>Where high-end luxury commerce meets cinematic artistry. Delivering visual precision for editorial Fashion, high-impact Advertising campaigns, Fine Jewellery, and upscale Food styling. Tailored for brands looking to elevate their narrative with profound aesthetic depth.</p>
+        </div>
+        <div class="service-card">
+            <b>04 / INTERIOR & EVENT COMMERCIAL</b>
+            <p>Documenting spaces, structures, and premium brand experiences. Providing sophisticated Interior and architectural visuals alongside high-level Corporate and Event reportage. We translate the scale, atmosphere, and energy of your business narratives into precision frames.</p>
+        </div>
+    </div>
+</section>
+
+<section id="work" class="work-section">
+    <div id="portfolio-main-hub" class="portfolio-main-hub">
+        <div class="hub-cover-item" onclick="enterGallery('wedding-gallery')">
+            <h2 class="hub-title">Wedding</h2>
+            <div class="hub-img-wrap"><img src="images/cat-wedding.jpeg" alt="Wedding"></div>
+        </div>
+        <div class="hub-cover-item" onclick="enterGallery('prewedding-gallery')">
+            <h2 class="hub-title">Pre-Wedding</h2>
+            <div class="hub-img-wrap"><img src="images/cat-pre-wedding.jpeg" alt="Pre-Wedding"></div>
+        </div>
+        <div class="hub-cover-item" onclick="enterGallery('portrait-gallery')">
+            <h2 class="hub-title">Portraits</h2>
+            <div class="hub-img-wrap"><img src="images/cat-family.jpeg" alt="Portraits"></div>
+        </div>
+        <div class="hub-cover-item" onclick="enterGallery('commercial-gallery')">
+            <h2 class="hub-title">Commercial</h2>
+            <div class="hub-img-wrap"><img src="images/cat-commercial.jpeg" alt="Commercial"></div>
+        </div>
+    </div>
+
+    <div id="portfolio-gallery-view" style="display: none; padding: 40px 0;">
+        <div class="sub-filters-container" id="sub-filters-ajax" style="text-align: center; margin-bottom: 60px;"></div>
+        <div class="story-grid" id="gallery-images-ajax"></div>
+        <div style="text-align: center; margin-top: 100px;">
+            <span onclick="backToHub()" style="font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#000'">← Back to Portfolio</span>
+        </div>
+    </div>
+</section>
+
+<section id="journal" class="journal-section">
+    <h2 class="section-title" style="margin-bottom:0;">Journal</h2>
+    <p class="journal-subtitle">Visual Essays & Cinematic Observations</p>
+    
+    <div id="journal-posts-container" class="journal-grid">
+        <p id="journal-loading-note" style="grid-column: span 12; font-family: 'Cormorant Garamond', serif; font-style: italic; color: #999;">Loading stories...</p>
+    </div>
+</section>
+
+<div id="master-lightbox" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(249, 247, 242, 0.96); backdrop-filter: blur(15px); z-index: 10000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" style="max-width: 85%; max-height: 80vh; object-fit: contain; box-shadow: 0 30px 80px rgba(0,0,0,0.06);">
+</div>
+
+<section id="kind-words" class="voices-section">
+    <h2>Voices</h2>
+    <div class="slider-wrapper">
+        <div class="slider-container">
+            <div class="voice-slide active">
+                <p>"Ming has an extraordinary ability to find the quiet beauty in chaotic moments. His lens doesn't just see; it feels."</p>
+                <span class="voice-author">— Sarah & James, London</span>
+            </div>
+            <div class="voice-slide">
+                <p>"A master of narrative. Precision meets artistry in every frame Ming captures."</p>
+                <span class="voice-author">— Creative Director, Studio V</span>
+            </div>
+            <div class="voice-slide">
+                <p>"The portrait session was calm, unhurried, and deeply honest. I've never seen myself like this."</p>
+                <span class="voice-author">— Elena Rossi, Artist</span>
+            </div>
+        </div>
+        <div class="slider-nav">
+            <button class="nav-arrow" onclick="moveVoice(-1)">⟨</button>
+            <button class="nav-arrow" onclick="moveVoice(1)">⟩</button>
+        </div>
+        <div class="slider-dots"></div>
+    </div>
+</section>
+
+<section id="inquiry" class="form-section">
+    <div class="form-container">
+        <h2 class="section-title">Tell me about your story.</h2>
+        <form action="https://formspree.io" method="POST" class="ming-form">
+            <div class="form-grid">
+                <div><label>Full Name</label><input type="text" name="name" placeholder="FULL NAME" required></div>
+                <div><label>Email Address</label><input type="email" name="email" placeholder="EMAIL ADDRESS" required></div>
+                <div><label>Event Date</label><input type="text" name="date" placeholder="DD/MM/YYYY"></div>
+                <div><label>Inquiry Type</label>
+                    <select name="type">
+                        <option value="Wedding">Wedding</option>
+                        <option value="Portrait">Portrait</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Event">Event</option>
+                    </select>
+                </div>
+                <div class="form-full"><label>Event Location</label><input type="text" name="location"></div>
+                <div class="form-full"><label>Your Message</label><textarea name="message" rows="4"></textarea></div>
+            </div>
+            <button type="submit" class="submit-btn">SEND MESSAGE</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <div class="social-links">
+        <a href="https://www.instagram.com/ming__photography?igsh=MWUyZWhvZ3Z5bGh3Yw==" target="_blank">
+            <img src="images/ig-icon.png" alt="Wedding IG">
+            <small style="font-size:10px; letter-spacing:1px;">Wedding</small>
+        </a>
+        <a href="https://www.instagram.com/ming.chan.studio?igsh=aGRzNmRhdG95bWE=" target="_blank">
+            <img src="images/ig-icon.png" alt="Commercial IG">
+            <small style="font-size:10px; letter-spacing:1px;">Commercial</small>
+        </a>
+    </div>
+    <a href="mailto:mingchanphoto@gmail.com" style="font-family:'Cormorant Garamond',serif; font-size:24px; font-style:italic;">mingchanphoto@gmail.com</a>
+    <div style="margin-top:60px;">
+        <p style="font-size:9px; color:#bbb; letter-spacing:1px;">&copy; 2026 MING CHAN PHOTOGRAPHY. ALL RIGHTS RESERVED.</p>
+        <a href="javascript:void(0)" class="privacy-link" onclick="openPrivacy()" style="font-size: 9px; color: #bbb; letter-spacing: 1px; margin-top: 25px; display: inline-block; transition: 0.3s;">Privacy Policy</a>
+    </div>
+</footer>
+
+<div id="privacy-lightbox" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(249, 247, 242, 0.98); backdrop-filter: blur(20px); z-index: 10005; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s ease;" onclick="closePrivacy()">
+    <div style="background: #fff; width: 85%; max-width: 750px; max-height: 80vh; overflow-y: auto; padding: 50px 40px; box-shadow: 0 40px 100px rgba(0,0,0,0.06); text-align: left; position: relative;" onclick="event.stopPropagation()">
+        <span style="position: absolute; top: 25px; right: 30px; font-size: 24px; cursor: pointer; font-weight: 200;" onclick="closePrivacy()">&times;</span>
+        <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 32px; font-style: italic; font-weight: 300; margin-bottom: 30px; border-bottom: 1px solid #1a1a1a; padding-bottom: 15px;">Privacy Policy</h2>
+        <div style="font-size: 13px; line-height: 2; color: #444;">
+            <p style="margin-bottom: 20px; font-style: italic; color: #888;">Last Updated: May 2026</p>
+            <p style="margin-bottom: 20px;">Ming Chan Photography ("we", "our", or "us") is dedicated to protecting the privacy of our website visitors and clients in compliance with the UK Data Protection Act and EU GDPR regulations.</p>
+            
+            <b style="color: #000; font-size: 11px; letter-spacing: 1px; display: block; margin: 25px 0 10px; text-transform: uppercase;">1. Data We Collect</b>
+            <p style="margin-bottom: 15px;">When you utilize our Inquiry Form, we collect personal narratives and information, including your full name, email address, event date, location, and any creative details you share. Our website also utilizes minimal cookies to refine your visual browsing experience.</p>
+            
+            <b style="color: #000; font-size: 11px; letter-spacing: 1px; display: block; margin: 25px 0 10px; text-transform: uppercase;">2. How We Use Your Data</b>
+            <p style="margin-bottom: 15px;">Your data is exclusively used to orchestrate your photography commissions, respond directly to your visual storytelling inquiries, and manage project logistics. We strictly do not share, sell, or lease your personal information to third-party marketing entities.</p>
+        </div>
+    </div>
+</div>
+
+<div id="cookieBanner">
+    <span>We use cookies to ensure you get the best experience on our website.</span>
+    <button onclick="acceptCookies()">ACCEPT</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // [COOKIE BANNER]
+        if (!localStorage.getItem('cookiesAccepted')) {
+            document.getElementById('cookieBanner').style.display = 'flex';
+        }
+
+        // [HERO SLIDESHOW]
+        const slides = document.getElementsByClassName("slide");
+        let hIdx = 0;
+        function showHero() {
+            for (let i = 0; i < slides.length; i++) slides[i].classList.remove("active");
+            hIdx++; 
+            if (hIdx > slides.length) hIdx = 1;
+            if(slides.length > 0) slides[hIdx-1].classList.add("active");
+            setTimeout(showHero, 5000);
+        }
+        showHero();
+
+        // [VOICES SLIDER]
+        initVoices();
+        
+        // [JOURNAL ENGINE]
+        loadJournalPosts();
+
+        // [NETLIFY IDENTITY]
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.init();
+            window.netlifyIdentity.on("login", () => {
+                let cleanOrigin = window.location.origin.replace('/.netlify', '');
+                window.location.href = cleanOrigin + "/admin/index.html";
+            });
+            if (window.location.pathname.indexOf('/.netlify') !== -1) {
+                window.location.href = window.location.origin.split('/.netlify')[0] + "/admin/index.html";
+            }
+            if (window.location.pathname.indexOf('/admin') !== -1 || window.location.hash === '#ln') {
+                setTimeout(() => window.netlifyIdentity.open('login'), 200);
+            }
+        }
+    });
+
+    // Global Functions
+    function acceptCookies() { 
+        document.getElementById('cookieBanner').style.display='none'; 
+        localStorage.setItem('cookiesAccepted','true'); 
+    }
+
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+        let st = window.pageYOffset || document.documentElement.scrollTop;
+        const nav = document.getElementById('mainNav');
+        const btt = document.getElementById("backToTop");
+        if (st > lastScrollTop && st > 80) nav.classList.add('nav-up'); else nav.classList.remove('nav-up');
+        lastScrollTop = st;
+        if (btt) btt.style.display = st > 800 ? "flex" : "none";
+    });
+
+    function toggleMenu() {
+        const m = document.getElementById("fullScreenMenu");
+        const t = document.querySelector(".menu-toggle-fixed");
+        if (!m || !t) return;
+        m.style.width = m.style.width === "100%" ? "0" : "100%";
+        t.classList.toggle("change");
+    }
+
+    const obs = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); }); }, { threshold: 0.1 });
+    window.scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Voice Slider Logic
+    let vIdx = 0;
+    function initVoices() {
+        const dotsBox = document.querySelector('.slider-dots');
+        const vSlides = document.getElementsByClassName("voice-slide");
+        if(!dotsBox || vSlides.length === 0) return;
+        dotsBox.innerHTML = '';
+        Array.from(vSlides).forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${i === 0 ? 'active' : ''}`;
+            dot.onclick = () => { vIdx = i; updateVoice(); };
+            dotsBox.appendChild(dot);
+        });
+    }
+    function updateVoice() {
+        const vSlides = document.getElementsByClassName("voice-slide");
+        const dots = document.getElementsByClassName("dot");
+        if (vIdx >= vSlides.length) vIdx = 0; else if (vIdx < 0) vIdx = vSlides.length - 1;
+        Array.from(vSlides).forEach((s, i) => { s.classList.remove("active"); if(dots[i]) dots[i].classList.remove("active"); });
+        if(vSlides[vIdx]) vSlides[vIdx].classList.add("active"); 
+        if(dots[vIdx]) dots[vIdx].classList.add("active");
+    }
+    function moveVoice(n) { vIdx += n; updateVoice(); }
+
+    // Journal Logic - Using modern Template Literals
+// [JOURNAL ENGINE - LOAD MORE VERSION]
+let allJournalPosts = [];
+    let postsDisplayed = 0;
+    const POSTS_PER_PAGE = 3; // 每次顯示幾多篇
+
+    async function loadJournalPosts() {
+        const container = document.getElementById('journal-posts-container');
+        if (!container) return;
+        
+        // 假資料 (當 API 失敗或未有文章時顯示)
+        const dummy = [
+            { slug: 'london', data: { title: 'Orchestrating Light: A Cinematic Afternoon in London', date: '2026-05-15', thumbnail: 'images/hero-1.jpeg', snippet: 'From golden hour flares slicing through classic London architecture. Exploring how cinematic framing uncovers the city\'s unspoken soul.' }},
+            { slug: 'weddings', data: { title: 'The Art of Stillness: Behind the Scenes of Luxury Documentaries', date: '2026-04-28', thumbnail: 'images/hero-2.jpeg', snippet: 'In the midst of grand celebrations, the most profound moments are often the quietest ones. A deep dive into capturing unscripted emotions.' }},
+            { slug: 'film', data: { title: 'From Hong Kong Film Sets to United Kingdom Stills', date: '2026-03-10', thumbnail: 'images/ming-portrait.jpeg', snippet: 'Two decades of visual exploration. How my cinematic background shapes composition, shadow management, and emotional resonance.' }},
+            { slug: 'dummy4', data: { title: 'The Beauty of Monochrome', date: '2026-02-15', thumbnail: 'images/cat-commercial.jpeg', snippet: 'Why black and white photography still holds the most powerful emotional weight in modern wedding documentary.' }},
+            { slug: 'dummy5', data: { title: 'A Study of Shadows', date: '2026-01-20', thumbnail: 'images/cat-wedding.jpeg', snippet: 'Utilizing natural light to carve out dramatic, unforgettable portraits.' }}
+        ];
+
+        try {
+            const res = await fetch('/admin/api/v1/collections/journal/entries');
+            allJournalPosts = res.ok ? await res.json() : dummy;
+            if (!allJournalPosts || allJournalPosts.length === 0) allJournalPosts = dummy;
+        } catch (e) {
+            allJournalPosts = dummy;
+            console.log("Local render applied.");
+        }
+        
+        const loading = document.getElementById('journal-loading-note');
+        if (loading) loading.remove();
+        container.innerHTML = ''; // 清空容器
+        
+        renderNextPosts(); // 首次載入頭 3 篇
+    }
+
+    // 負責渲染文章及處理 Load More 嘅函數
+    window.renderNextPosts = function() {
+        const container = document.getElementById('journal-posts-container');
+        const end = Math.min(postsDisplayed + POSTS_PER_PAGE, allJournalPosts.length);
+        
+        // 逐篇加入 HTML
+        for (let i = postsDisplayed; i < end; i++) {
+            const post = allJournalPosts[i];
+            const { data: d, slug } = post;
+            const isEven = i % 2 === 0; // 確保一左一右交錯
+            const dateStr = new Date(d.date).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
+            
+            const rowHTML = `
+                <div class="work-item reveal" style="grid-column:span 12; display:flex; flex-direction:${isEven ? 'row' : 'row-reverse'}; align-items:center; width:100%; margin-bottom:80px; gap:40px;">
+                    <div class="journal-img-wrap" style="width:55%; height:45vh; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.04);">
+                        <img src="${d.thumbnail}" style="width:100%; height:100%; object-fit:cover; filter:grayscale(100%); transition:1s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
+                    </div>
+                    <div class="journal-text-wrap" style="width:45%; padding:${isEven ? '0 0 0 40px' : '0 40px 0 0'}; text-align:left;">
+                        <p style="font-size:11px; color:#aaa; letter-spacing:2px; margin-bottom:12px; text-transform:uppercase;">${dateStr}</p>
+                        <h3 style="font-family:'Cormorant Garamond',serif; font-size:26px; font-style:italic; font-weight:300; line-height:1.3; margin-bottom:15px;">
+                            <a href="/journal/${slug}" style="color:#1a1a1a;">${d.title}</a>
+                        </h3>
+                        <p style="font-size:14px; line-height:1.9; color:#555; font-weight:300; text-align:justify; margin-bottom:20px;">${d.snippet || ''}</p>
+                        <a href="/journal/${slug}" style="font-family:'Cormorant Garamond',serif; font-size:14px; font-style:italic; color:#1a1a1a; border-bottom:1px solid #1a1a1a; padding-bottom:2px;">Read Story →</a>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', rowHTML);
+        }
+        
+        postsDisplayed = end;
+        
+        // 重新觸發浮現動畫 (Scroll Reveal)
+        document.querySelectorAll('.work-item.reveal').forEach(wi => obs.observe(wi));
+
+        // 處理 Load More 按鈕顯示與隱藏
+        let loadBtnWrap = document.getElementById('load-more-wrap');
+        if (postsDisplayed < allJournalPosts.length) {
+            if (!loadBtnWrap) {
+                // 如果未有按鈕，就加落最底
+                const btnHTML = `<div id="load-more-wrap" style="grid-column: span 12; text-align: center; margin-top: 20px;">
+                    <button onclick="renderNextPosts()" style="background: transparent; border: 1px solid #1a1a1a; color: #1a1a1a; padding: 12px 35px; font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: 0.4s;" onmouseover="this.style.background='#1a1a1a'; this.style.color='#fff';" onmouseout="this.style.background='transparent'; this.style.color='#1a1a1a';">Load More</button>
+                </div>`;
+                container.insertAdjacentHTML('beforeend', btnHTML);
+            } else {
+                // 如果有按鈕，將佢搬去新內容嘅最底
+                container.appendChild(loadBtnWrap);
+            }
+        } else if (loadBtnWrap) {
+            // 文章已經顯示晒，隱藏按鈕
+            loadBtnWrap.style.display = 'none';
+        }
+    };
+
+    // Gallery Data
+    const galleryData = {
+        'wedding-gallery': {
+            filters: ['All', 'UK Wedding Day', 'Hong Kong Wedding Day'],
+            photos: [
+                { src: 'images/w1.webp', tag: 'UK Wedding Day', title: 'Smith & Angel', loc: 'LONDON, UK' },
+                { src: 'images/w2.webp', tag: 'UK Wedding Day', title: 'Smith & Angel', loc: 'LONDON, UK' }
+            ]
+        },
+        'prewedding-gallery': {
+            filters: ['All', 'UK Pre-Wedding', 'Destination Pre-Wedding'],
+            photos: [
+                { src: 'images/pw1.webp', tag: 'UK Pre-Wedding', title: 'James & Sophia', loc: 'EDINBURGH, UK' },
+                { src: 'images/pw2.webp', tag: 'UK Pre-Wedding', title: 'James & Sophia', loc: 'EDINBURGH, UK' }
+            ]
+        },
+        'portrait-gallery': {
+            filters: ['All', 'Family', 'Graduation'],
+            photos: [
+                { src: 'images/p1.webp', tag: 'Family', title: 'Elena Rossi', loc: 'ARTIST PORTRAIT' }
+            ]
+        },
+        'commercial-gallery': {
+            filters: ['All', 'Fashion & Portrait', 'Corporate'],
+            photos: [
+                { src: 'images/c1.webp', tag: 'Fashion & Portrait', title: 'VOGUE Editorial', loc: 'MILAN, ITALY' }
+            ]
+        }
+    };
+
+    let currentGalleryKey = '';
+
+    window.enterGallery = (key) => {
+        currentGalleryKey = key;
+        const hub = document.getElementById('portfolio-main-hub');
+        const view = document.getElementById('portfolio-gallery-view');
+        if (!galleryData[key] || !hub || !view) return;
+
+        hub.style.opacity = '0';
+        setTimeout(() => {
+            hub.style.display = 'none'; 
+            view.style.display = 'block'; 
+            view.style.opacity = '0';
+            window.scrollTo({ top: document.getElementById('work').offsetTop - 85, behavior: 'instant' });
+            
+            renderSubFilters(galleryData[key].filters);
+            filterGallery('All');
+            
+            setTimeout(() => view.style.opacity = '1', 50);
+        }, 350);
+    };
+
+    window.backToHub = () => {
+        const hub = document.getElementById('portfolio-main-hub');
+        const view = document.getElementById('portfolio-gallery-view');
+        if (!hub || !view) return;
+        
+        view.style.opacity = '0';
+        setTimeout(() => {
+            view.style.display = 'none'; 
+            hub.style.display = 'flex';
+            document.getElementById('mainNav')?.classList.remove('nav-up');
+            
+            setTimeout(() => { 
+                hub.style.opacity = '1'; 
+                window.scrollTo({ top: document.getElementById('work').offsetTop - 85, behavior: 'smooth' });
+            }, 50);
+        }, 400);
+    };
+
+    function renderSubFilters(filters) {
+        const targetBox = document.getElementById('sub-filters-ajax');
+        targetBox.innerHTML = filters.map((f, i) => 
+            `<button class="sub-filter-btn ${i === 0 ? 'active' : ''}" onclick="changeSubFilter(event, '${f}')">${f}</button>`
+        ).join('');
+    }
+
+    window.changeSubFilter = (evt, name) => {
+        document.querySelectorAll('.sub-filter-btn').forEach(b => b.classList.remove('active'));
+        evt.currentTarget.classList.add('active');
+        filterGallery(name);
+    };
+
+    function filterGallery(filterName) {
+        const grid = document.getElementById('gallery-images-ajax');
+        if (!grid || !galleryData[currentGalleryKey]) return;
+        
+        grid.style.opacity = '0';
+        setTimeout(() => {
+            grid.innerHTML = ''; 
+            let count = 0;
+            galleryData[currentGalleryKey].photos.forEach(p => {
+                if (filterName === 'All' || p.tag === filterName) {
+                    count++; 
+                    const spanClass = count % 3 === 0 ? 'span-5' : (count % 3 === 2 ? 'span-7' : 'span-12');
+                    
+                    const itemHTML = `
+                        <div class="v3-work-item reveal ${spanClass}" onclick="openLightbox('${p.src}')">
+                            <div style="overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.03);">
+                                <img src="${p.src}" loading="lazy">
+                            </div>
+                            <div class="v3-meta-box">
+                                <span class="v3-title">${p.title}</span>
+                                <span class="v3-loc">${p.loc}</span>
+                            </div>
+                        </div>`;
+                    grid.insertAdjacentHTML('beforeend', itemHTML);
+                }
+            });
+            document.querySelectorAll('.v3-work-item.reveal').forEach(wi => obs.observe(wi));
+            setTimeout(() => grid.style.opacity = '1', 50);
+        }, 300);
+    }
+
+    window.openLightbox = (src) => {
+        const lb = document.getElementById('master-lightbox'); 
+        const img = document.getElementById('lightbox-img');
+        if (!lb || !img) return;
+        img.src = src; 
+        lb.style.display = 'flex';
+        setTimeout(() => lb.style.opacity = '1', 50);
+    };
+
+    window.closeLightbox = () => {
+        const lb = document.getElementById('master-lightbox'); 
+        lb.style.opacity = '0';
+        setTimeout(() => lb.style.display = 'none', 400);
+    };
+
+    window.openPrivacy = () => {
+        const pLb = document.getElementById('privacy-lightbox');
+        pLb.style.display = 'flex';
+        setTimeout(() => pLb.style.opacity = '1', 50);
+    };
+
+    window.closePrivacy = () => {
+        const pLb = document.getElementById('privacy-lightbox');
+        pLb.style.opacity = '0';
+        setTimeout(() => pLb.style.display = 'none', 500);
+    };
+</script>
+</body>
+</html>
