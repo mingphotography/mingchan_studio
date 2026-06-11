@@ -6,8 +6,8 @@ media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "journal"
-    label: "Journal (Stories)"
+  - name: "selected_works"
+    label: "Selected Works"
     folder: "content/journal"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -16,4 +16,18 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Cover Image", name: "thumbnail", widget: "image"}
       - {label: "Snippet (Short Intro)", name: "snippet", widget: "text", required: false}
+      
+      # 🌟 新增欄位開始
+      - {label: "Location", name: "location", widget: "string", required: false}
+      
+      - label: "Project Type"
+        name: "project_type"
+        widget: "select"
+        options: ["Pre-Wedding", "Wedding Day", "Portrait", "Commercial", "Editorial"]
+        required: false
+        
+      - {label: "Member of HKPPA", name: "tag_hkppa", widget: "boolean", default: false, required: false}
+      - {label: "Rosewood Approved", name: "tag_rosewood", widget: "boolean", default: false, required: false}
+      # 🌟 新增欄位結束
+      
       - {label: "Body Text", name: "body", widget: "markdown"}
