@@ -31,3 +31,14 @@ collections:
       # 🌟 新增欄位結束
       
       - {label: "Body Text", name: "body", widget: "markdown"}
+
+      - name: "promotion"
+    label: "Promotion Settings"
+    folder: "content/promotion"
+    create: false
+    single: true # 重要：呢個設定確保永遠只會得一個 Promotion 檔案，唔會彈出成堆
+    fields:
+      - {label: "Show Promotion?", name: "is_active", widget: "boolean", default: false}
+      - {label: "Poster Image", name: "poster", widget: "image"}
+      - {label: "Expiry Date", name: "expiry_date", widget: "datetime", format: "YYYY-MM-DD"}
+      - {label: "Email Subject", name: "subject", widget: "string", default: "Inquiry about Promotion"}
