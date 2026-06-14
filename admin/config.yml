@@ -29,7 +29,7 @@ collections:
   - name: "promotion"
     label: "Promotion Settings"
     folder: "content/promotion"
-    create: true
+    create: false
     extension: "json"
     format: "json"
     fields:
