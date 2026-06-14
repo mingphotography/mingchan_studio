@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: main 
+  branch: main
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
@@ -16,27 +16,22 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Cover Image", name: "thumbnail", widget: "image"}
       - {label: "Snippet (Short Intro)", name: "snippet", widget: "text", required: false}
-      
-      # 🌟 新增欄位開始
       - {label: "Location", name: "location", widget: "string", required: false}
-      
       - label: "Project Type"
         name: "project_type"
         widget: "select"
         options: ["Pre-Wedding", "Wedding Day", "Portrait", "Commercial", "Editorial"]
         required: false
-        
       - {label: "Member of HKPPA", name: "tag_hkppa", widget: "boolean", default: false, required: false}
       - {label: "Rosewood Approved", name: "tag_rosewood", widget: "boolean", default: false, required: false}
-      # 🌟 新增欄位結束
-      
       - {label: "Body Text", name: "body", widget: "markdown"}
 
-      - name: "promotion"
+  - name: "promotion"
     label: "Promotion Settings"
     folder: "content/promotion"
     create: false
-    single: true # 重要：呢個設定確保永遠只會得一個 Promotion 檔案，唔會彈出成堆
+    extension: "json"
+    format: "json"
     fields:
       - {label: "Show Promotion?", name: "is_active", widget: "boolean", default: false}
       - {label: "Poster Image", name: "poster", widget: "image"}
