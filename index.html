@@ -1,3 +1,6 @@
+---
+layout: default
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,11 +83,11 @@
         .service-card p { font-size: 14px; line-height: 2; color: #444; font-weight: 300; text-align: justify; }
 
         /* ==========================================
-           [🌟 SELECTED WORKS - 4-COLUMN & 2-COLUMN GRID]
+           [🌟 SELECTED WORKS & 5-COLUMNS GRID]
            ========================================== */
         .work-section { padding-bottom: 120px; }
         
-        .portfolio-main-hub { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px 40px; padding: 60px 5%; max-width: 1400px; margin: 0 auto; transition: opacity 0.4s ease; }
+        .portfolio-main-hub { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px 40px; padding: 20px 5% 60px; max-width: 1400px; margin: 0 auto; transition: opacity 0.4s ease; }
         .hub-cover-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.4s; }
         .hub-img-wrap { width: 100%; height: 50vh; overflow: hidden; margin-bottom: 25px; border-radius: 2px; }
         .hub-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: transform var(--transition), filter 0.8s ease; }
@@ -93,7 +96,6 @@
         .hub-cover-item:hover .hub-title { color: #888; letter-spacing: 6px; }
         .hub-cover-item:hover .hub-img-wrap img { filter: grayscale(0%); transform: scale(1.03); }
         
-        /* 預留故事空間：為每輯作品加上背景故事簡介 */
         .gallery-story-intro { max-width: 800px; margin: 0 auto 50px; text-align: center; opacity: 0; transform: translateY(20px); transition: 0.6s ease; }
         .gallery-story-intro h3 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-style: italic; font-weight: 300; margin-bottom: 15px; }
         .gallery-story-intro p { font-size: 13px; line-height: 2; color: #666; font-weight: 300; }
@@ -101,20 +103,40 @@
         .sub-filter-btn { background: none; border: none; font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #aaa; cursor: pointer; padding: 8px 20px; transition: 0.4s; }
         .sub-filter-btn.active { color: #000; font-weight: 400; border-bottom: 1px solid #000; }
         
-        #gallery-images-ajax.story-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; width: 90%; margin: 0 auto; padding: 30px 0; transition: opacity 0.4s ease; }
-        .v3-work-item { position: relative; cursor: pointer; overflow: hidden; display: flex; flex-direction: column; width: 100%; }
-        .v3-img-box { width: 100%; aspect-ratio: 3 / 4; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.03); border-radius: 2px; }
+        /* 🔥 新的 5-Columns Grid 設定 */
+        #gallery-images-ajax.story-grid { 
+            display: grid; 
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 20px; 
+            width: 100%; 
+            max-width: 1400px;
+            margin: 0 auto; 
+            padding: 30px 20px; 
+            transition: opacity 0.4s ease; 
+        }
+        
+        /* 加入 3D Hover 立體浮起效果 */
+        .v3-work-item { 
+            position: relative; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            width: 100%; 
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .v3-work-item:hover { 
+            transform: translateY(-8px); 
+        }
+        
+        .v3-img-box { width: 100%; aspect-ratio: 3 / 4; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-radius: 2px; }
         .v3-work-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: filter 0.8s ease, transform var(--transition); }
-        .v3-work-item:hover img { filter: grayscale(0%); transform: scale(1.02); }
+        .v3-work-item:hover img { filter: grayscale(0%); transform: scale(1.03); }
         
         .v3-meta-box { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 15px; opacity: 0; transform: translateY(5px); transition: all 0.5s ease; }
         .v3-work-item:hover .v3-meta-box { opacity: 1; transform: translateY(0); }
         .v3-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; font-weight: 300; }
         .v3-loc { font-size: 9px; letter-spacing: 2px; color: #888; text-transform: uppercase; }
 
-        /* ==========================================
-           [🌟 無縫三向導航 (Seamless Navigation)]
-           ========================================== */
         .seamless-nav { display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 100px auto 0; padding: 0 20px; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; }
         .nav-btn { background: none; border: none; cursor: pointer; color: #888; transition: 0.3s; display: flex; align-items: center; gap: 10px; font-family: inherit; font-size: inherit; }
         .nav-btn:hover { color: #000; }
@@ -124,18 +146,16 @@
         .grid-icon-btn span { display: block; width: 6px; height: 6px; background: #1a1a1a; }
 
         /* ==========================================
-           [🌟 升級 LIGHTBOX (收埋掣 + 縮圖導航)]
+           [🌟 LIGHTBOX]
            ========================================== */
         #master-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(249, 247, 242, 0.98); backdrop-filter: blur(15px); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; padding: 20px; }
         
-        /* 顯眼右上角 X 掣 */
         .lightbox-close { position: absolute; top: 25px; right: 40px; font-size: 40px; font-weight: 200; cursor: pointer; z-index: 10002; color: #000; transition: 0.3s; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.03); border-radius: 50%; }
         .lightbox-close:hover { background: rgba(0,0,0,0.1); }
         
         .lightbox-main-container { position: relative; max-width: 90%; max-height: 65vh; display: flex; align-items: center; justify-content: center; z-index: 10001; }
         #lightbox-img { max-width: 100%; max-height: 65vh; object-fit: contain; box-shadow: 0 40px 90px rgba(0,0,0,0.07); transition: opacity 0.3s ease; }
         
-        /* 橫向導航細圖列 */
         .lightbox-thumbs-nav { display: flex; gap: 12px; margin-top: 40px; max-width: 80%; overflow-x: auto; padding: 10px 20px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; z-index: 10001; }
         .lightbox-thumbs-nav::-webkit-scrollbar { height: 3px; }
         .lightbox-thumbs-nav::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); }
@@ -151,21 +171,24 @@
         .journal-grid { max-width: 1200px; margin: 0 auto; padding: 0 5%; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
 
         /* Voices */
-        .voices-section { padding: 150px 5%; background: var(--white); text-align: center; }
-        .voices-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; margin-bottom: 60px; }
-        .slider-wrapper { max-width: 900px; margin: 0 auto; position: relative; padding: 0 60px; min-height: 350px; display: flex; flex-direction: column; justify-content: center; }
-        .voice-slide { display: none; width: 100%; }
-        .voice-slide.active { display: block; }
-        .voice-slide p { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 3vw, 34px); font-style: italic; line-height: 1.6; margin-bottom: 30px; }
-        .voice-author { font-size: 10px; letter-spacing: 3px; color: #888; text-transform: uppercase; }
-        .slider-nav { position: absolute; top: 50%; left: 0; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); pointer-events: none; }
-        .nav-arrow { width: 40px; height: 40px; cursor: pointer; pointer-events: auto; background: none; border: none; font-size: 28px; color: #ddd; transition: 0.3s; font-family: serif; }
-        .nav-arrow:hover { color: #000; }
-        .slider-dots { margin-top: 40px; display: flex; justify-content: center; gap: 12px; }
-        .dot { width: 6px; height: 6px; background: #eee; border-radius: 50%; cursor: pointer; transition: 0.3s; }
-        .dot.active { background: #000; width: 15px; border-radius: 10px; }
+        .voices-section { padding: 120px 10%; background: #faf9f6; text-align: center; overflow: hidden; }
+        .voices-section .section-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; margin-bottom: 60px; }
+        
+        .stack-container { position: relative; width: 100%; max-width: 480px; height: 420px; margin: 0 auto; cursor: pointer; }
+        .voice-card {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; padding: 50px 40px; border: 1px solid #eee;
+            display: flex; flex-direction: column; justify-content: center;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            transform-origin: center center; 
+        }
+        .voice-card p { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; line-height: 1.7; color: #333; margin-bottom: 25px; }
+        .voice-author { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #999; border-top: 1px solid #f4f4f4; padding-top: 15px; }
+        .voice-card.removed { transform: translateX(-120%) translateY(-50px) rotate(-15deg) !important; opacity: 0 !important; pointer-events: none; }
 
-        /* FAQ (Accordion式) */
+        /* FAQ */
         .faq-section { padding: 80px 10%; background: #fff; max-width: 900px; margin: 0 auto; border-top: 1px solid #f4f4f4; }
         .faq-item { border-bottom: 1px solid #eee; padding: 20px 0; cursor: pointer; }
         .faq-question { display: flex; justify-content: space-between; align-items: center; font-family: 'Montserrat', sans-serif; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; font-weight: 400; }
@@ -198,7 +221,7 @@
         #cookieBanner button:hover { background: #333; }
 
         /* ==========================================
-           [MOBILE RESPONSIVE] 
+           [MOBILE RESPONSIVE - 2 COLUMNS GRID INCUDED] 
            ========================================== */
         @media (max-width: 767px) {
             nav { padding: 15px 30px; }
@@ -217,13 +240,17 @@
 
             .gallery-story-intro h3 { font-size: 26px; }
 
-            /* 🛠️ 手機版完美 2 欄 */
-            #gallery-images-ajax.story-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; width: 92%; }
+            /* 🔥 手機版 2 欄設定 */
+            #gallery-images-ajax.story-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px; 
+                width: 100%; 
+                padding: 15px; 
+            }
             .v3-meta-box { opacity: 1; transform: none; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
             
             .seamless-nav { font-size: 16px; margin-top: 60px; }
 
-            /* Lightbox 手機端微調 */
             .lightbox-close { top: 15px; right: 20px; width: 40px; height: 40px; font-size: 30px; }
             .lightbox-main-container { max-height: 55vh; }
             #lightbox-img { max-height: 55vh; }
@@ -311,6 +338,10 @@
 </section>
 
 <section id="work" class="work-section">
+    <div style="padding: 80px 0 20px 0;" id="work-section-header">
+        <h2 class="section-title">Selected works</h2>
+        <p style="text-align: center; font-size: 10px; letter-spacing: 4px; color: #888; text-transform: uppercase; margin-top: 15px;">A curated collection of visual narratives</p>
+    </div>
     <div id="portfolio-main-hub" class="portfolio-main-hub">
         <div class="hub-cover-item" onclick="enterGallery('wedding')">
             <div class="hub-img-wrap"><img src="images/cat-wedding.jpeg" alt="Wedding Documentary"></div>
@@ -336,7 +367,7 @@
             <p id="gallery-story-text"></p>
         </div>
 
-        <div class="sub-filters-container" id="sub-filters-ajax" style="text-align: center; margin-bottom: 40px;"></div>
+        <div class="sub-filters-container" id="sub-filters-ajax" style="text-align: center; margin-bottom: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;"></div>
         
         <div class="story-grid" id="gallery-images-ajax"></div>
         
@@ -373,32 +404,17 @@
 </div>
 
 <section id="kind-words" class="voices-section">
-    <h2>Voices</h2>
-    <div class="slider-wrapper">
-        <div class="slider-container">
-            <div class="voice-slide active">
-                <p>"Ming has an extraordinary ability to find the quiet beauty in chaotic moments. His lens doesn't just see; it feels."</p>
-                <span class="voice-author">— Sarah & James, London</span>
-            </div>
-            <div class="voice-slide">
-                <p>"A master of narrative. Precision meets artistry in every frame Ming captures."</p>
-                <span class="voice-author">— Creative Director, Studio V</span>
-            </div>
-            <div class="voice-slide">
-                <p>"The portrait session was calm, unhurried, and deeply honest. I've never seen myself like this."</p>
-                <span class="voice-author">— Elena Rossi, Artist</span>
-            </div>
+    <h2 class="section-title">Voices</h2>
+    <div class="stack-container" id="stack-deck">
         </div>
-        <div class="slider-nav">
-            <button class="nav-arrow" onclick="moveVoice(-1)">⟨</button>
-            <button class="nav-arrow" onclick="moveVoice(1)">⟩</button>
-        </div>
-        <div class="slider-dots"></div>
-    </div>
+    <p style="margin-top: 40px; font-size: 9px; letter-spacing: 3px; color: #aaa; text-transform: uppercase;">Tap to reveal next</p>
 </section>
 
 <section id="faq" class="faq-section">
-    <h2 class="section-title" style="margin-bottom: 50px;">Curated Inquiries</h2>
+    <h2 class="section-title">FAQ</h2>
+    <p style="text-align: center; font-size: 10px; letter-spacing: 4px; color: #888; text-transform: uppercase; margin-top: 15px; margin-bottom: 50px;">
+        Curated Inquiries & Answers
+    </p>
     <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-question">Do you travel for destination weddings? <span class="faq-icon">+</span></div>
         <div class="faq-answer">Yes, we specialize in destination visual storytelling worldwide, frequently covering assignments across the UK, Europe, and Asia. Logistics will be tailored in our bespoke proposal.</div>
@@ -477,6 +493,28 @@
     <button onclick="acceptCookies()">ACCEPT</button>
 </div>
 
+{% assign promo = site.data.promotion %}
+{% if promo and promo.is_active %}
+<div id="promo-popup" style="display: none; position: fixed; bottom: 25px; right: 25px; z-index: 10000; box-shadow: 0 15px 35px rgba(0,0,0,0.25); max-width: 320px; border-radius: 6px; overflow: hidden; animation: popIn 0.5s ease forwards;">
+    <button onclick="closePromo()" style="position: absolute; top: 8px; right: 8px; cursor: pointer; background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; z-index: 10001; font-size: 14px; transition: 0.3s;">&times;</button>
+    <a href="mailto:ming@example.com?subject={{ promo.subject | uri_escape }}">
+      <img src="{{ promo.poster }}" style="width: 100%; display: block; object-fit: cover;">
+    </a>
+</div>
+<style>
+    @keyframes popIn { 0% { transform: scale(0.9) translateY(20px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+</style>
+<script>
+  const expiry = new Date("{{ promo.expiry_date }}");
+  if (new Date() < expiry) { 
+      document.getElementById('promo-popup').style.display = 'block'; 
+  }
+  function closePromo() {
+      document.getElementById('promo-popup').style.display = 'none';
+  }
+</script>
+{% endif %}
+
 <script>
     let currentFilteredPhotos = [];
 
@@ -485,7 +523,7 @@
             document.getElementById('cookieBanner').style.display = 'flex';
         }
         showHero();
-        initVoices();
+        initStack(); // Initialize the dynamic Stacked Cards
         loadJournalPosts();
 
         if (window.netlifyIdentity) {
@@ -537,28 +575,85 @@
     const obs = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('reveal'); }); }, { threshold: 0.1 });
     window.scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    let vIdx = 0;
-    function initVoices() {
-        const dotsBox = document.querySelector('.slider-dots');
-        const vSlides = document.getElementsByClassName("voice-slide");
-        if(!dotsBox || vSlides.length === 0) return;
-        dotsBox.innerHTML = '';
-        Array.from(vSlides).forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.className = `dot ${i === 0 ? 'active' : ''}`;
-            dot.onclick = () => { vIdx = i; updateVoice(); };
-            dotsBox.appendChild(dot);
+    // ==========================================
+    // [🌟 NEW STACKED CARDS LOGIC]
+    // ==========================================
+    const voicesData = [
+        { text: "From the first consultation to the final delivery, the team was always available. They were attentive to every detail and truly professional.", author: "Karley & Sin" },
+        { text: "MC and his team provided exceptional service. Throughout the process, they were responsive and went above and beyond to ensure we were happy.", author: "Kwong Yin Chan" },
+        { text: "MC was more than a photographer; he became our timekeeper. His calming presence allowed us to enjoy our day despite a hectic schedule.", author: "Alison Chan" },
+        { text: "MC’s style is joyful, warm, and impressive. His ability to tell a story through images is extraordinary.", author: "Ava & Billy" },
+        { text: "Your advice and prompt replies throughout the preparation gave us security. Our wedding day was truly perfect with your help.", author: "Katy & Peter" },
+        { text: "Professional services, valuable feedback on logistics, and a swift reaction to unplanned situations. Highly recommended.", author: "Ron Kwok" },
+        { text: "MC is courteous, gentle, and experienced. He executed the session with warmth and kindness while remaining attentive to detail.", author: "Jane Yip" },
+        { text: "His talent lived up to our standards. We truly believe our day would not have been so smooth without his professional advice.", author: "Michelle Lau" },
+        { text: "MC provided thoughtful, practical advice and expertly coordinated large group shots with patience. A joy to have around.", author: "Mandy & Derek" },
+        { text: "What set MC apart was his ability to deliver stunning photographs in any lighting. He strikes the perfect balance between guiding us and capturing natural, candid emotions.", author: "Chirag Lukha" }
+    ];
+
+    const deck = document.getElementById('stack-deck');
+    let cardElements = [];
+
+    function initStack() {
+        if(!deck) return;
+        deck.innerHTML = voicesData.map((v) => `
+            <div class="voice-card">
+                <p>"${v.text}"</p>
+                <span class="voice-author">— ${v.author}</span>
+            </div>
+        `).join('');
+        
+        cardElements = Array.from(deck.querySelectorAll('.voice-card'));
+        updateCardPositions();
+    }
+
+    function updateCardPositions() {
+        cardElements.forEach((card, index) => {
+            card.classList.remove('removed');
+            
+            if (index === 0) {
+                card.style.transform = 'translate(0px, 0px) rotate(0deg) scale(1)';
+                card.style.opacity = '1';
+                card.style.zIndex = '10';
+                card.style.pointerEvents = 'auto';
+            } else if (index === 1) {
+                card.style.transform = 'translate(15px, 15px) rotate(4deg) scale(0.98)';
+                card.style.opacity = '1';
+                card.style.zIndex = '9';
+                card.style.pointerEvents = 'none';
+            } else if (index === 2) {
+                card.style.transform = 'translate(-10px, 25px) rotate(-3deg) scale(0.95)';
+                card.style.opacity = '1'; 
+                card.style.zIndex = '8';
+                card.style.pointerEvents = 'none';
+            } else if (index === 3) {
+                card.style.transform = 'translate(5px, 35px) rotate(2deg) scale(0.92)';
+                card.style.opacity = '1'; 
+                card.style.zIndex = '7';
+                card.style.pointerEvents = 'none';
+            } else {
+                card.style.transform = 'translate(0px, 45px) rotate(0deg) scale(0.85)';
+                card.style.opacity = '0';
+                card.style.zIndex = '6';
+                card.style.pointerEvents = 'none';
+            }
         });
     }
-    function updateVoice() {
-        const vSlides = document.getElementsByClassName("voice-slide");
-        const dots = document.getElementsByClassName("dot");
-        if (vIdx >= vSlides.length) vIdx = 0; else if (vIdx < 0) vIdx = vSlides.length - 1;
-        Array.from(vSlides).forEach((s, i) => { s.classList.remove("active"); if(dots[i]) dots[i].classList.remove("active"); });
-        if(vSlides[vIdx]) vSlides[vIdx].classList.add("active"); 
-        if(dots[vIdx]) dots[vIdx].classList.add("active");
+
+    if(deck) {
+        deck.addEventListener('click', () => {
+            if(cardElements.length === 0) return;
+            const topCard = cardElements[0];
+            topCard.classList.add('removed'); 
+            
+            setTimeout(() => {
+                const movedCard = cardElements.shift(); 
+                cardElements.push(movedCard);           
+                deck.appendChild(movedCard);            
+                updateCardPositions();                  
+            }, 500); 
+        });
     }
-    function moveVoice(n) { vIdx += n; updateVoice(); }
 
     let allJournalPosts = [];
     let postsDisplayed = 0;
@@ -606,7 +701,6 @@
         document.querySelectorAll('.work-item.reveal').forEach(wi => obs.observe(wi));
     };
 
-    // 🌟 Gallery Data 結構優化
     const galleryKeys = ['wedding', 'prewedding', 'portrait', 'commercial'];
     const galleryNames = ['Wedding', 'Pre-Wedding', 'Portraits', 'Commercial'];
     
@@ -621,7 +715,7 @@
         },
         'prewedding': {
             title: 'Pre-Wedding', intro: 'Meticulously curated sessions worldwide.',
-            filters: ['All', 'UK Pre-Wedding', 'Destination Pre-Wedding'],
+            filters: ['All', 'UK Pre-Wedding', 'Destination Pre-Wedding', 'Studio Pre-Wedding'],
             photos: [
                 { src: 'images/pw1.webp', tag: 'UK Pre-Wedding', title: 'James & Sophia', loc: 'EDINBURGH, UK' },
                 { src: 'images/pw2.webp', tag: 'UK Pre-Wedding', title: 'James & Sophia', loc: 'EDINBURGH, UK' }
@@ -629,14 +723,14 @@
         },
         'portrait': {
             title: 'Portraits', intro: 'Preserving the profound chapters of life with intimacy.',
-            filters: ['All', 'Family', 'Graduation'],
+            filters: ['All', 'Family', 'Graduation', 'Maternity', 'Engagement & Portrait'],
             photos: [
                 { src: 'images/p1.webp', tag: 'Family', title: 'Elena Rossi', loc: 'ARTIST PORTRAIT' }
             ]
         },
         'commercial': {
             title: 'Commercial', intro: 'Where luxury commerce meets cinematic artistry.',
-            filters: ['All', 'Fashion & Portrait', 'Corporate'],
+            filters: ['All', 'Fashion & Portrait', 'Corporate', 'Advertising', 'Jewellery', 'Food', 'Interior', 'Events'],
             photos: [
                 { src: 'images/c1.webp', tag: 'Fashion & Portrait', title: 'VOGUE Editorial', loc: 'MILAN, ITALY' }
             ]
@@ -650,23 +744,22 @@
         const hub = document.getElementById('portfolio-main-hub');
         const view = document.getElementById('portfolio-gallery-view');
         const storyBox = document.getElementById('gallery-story-box');
+        const header = document.getElementById('work-section-header');
+
         if (!galleryData[key] || !hub || !view) return;
 
         hub.style.opacity = '0';
+        if(header) header.style.display = 'none'; 
+
         setTimeout(() => {
             hub.style.display = 'none'; 
             view.style.display = 'block'; 
             view.style.opacity = '0';
             
-            // 寫入背景故事與標題
             document.getElementById('gallery-story-title').innerText = galleryData[key].title;
             document.getElementById('gallery-story-text').innerText = galleryData[key].intro;
-            
-            // 設定三向無縫導航
             setupSeamlessNavigation(key);
-
-            window.scrollTo({ top: document.getElementById('work').offsetTop - 85, behavior: 'instant' });
-            
+            window.scrollTo({ top: document.getElementById('work').offsetTop - 65, behavior: 'instant' });
             renderSubFilters(galleryData[key].filters);
             filterGallery('All');
             
@@ -678,7 +771,32 @@
         }, 350);
     };
 
-    // 🌟 三向無縫導航邏輯 (自動隱藏邊界)
+    window.backToHub = () => {
+        const hub = document.getElementById('portfolio-main-hub');
+        const view = document.getElementById('portfolio-gallery-view');
+        const storyBox = document.getElementById('gallery-story-box');
+        const header = document.getElementById('work-section-header');
+        
+        if(header) {
+            header.style.display = 'block';
+            header.style.opacity = '1';
+        }
+        
+        if (hub) hub.style.display = 'grid'; 
+        
+        if (view) {
+            view.style.opacity = '0';
+            setTimeout(() => {
+                view.style.display = 'none';
+            }, 400);
+        }
+        
+        setTimeout(() => { 
+            if (hub) hub.style.opacity = '1';
+            window.scrollTo({ top: document.getElementById('work').offsetTop - 65, behavior: 'smooth' });
+        }, 50);
+    };
+
     function setupSeamlessNavigation(key) {
         const index = galleryKeys.indexOf(key);
         const prevBtn = document.getElementById('nav-prev-btn');
@@ -707,25 +825,6 @@
         }
     }
 
-    window.backToHub = () => {
-        const hub = document.getElementById('portfolio-main-hub');
-        const view = document.getElementById('portfolio-gallery-view');
-        const storyBox = document.getElementById('gallery-story-box');
-        if (!hub || !view) return;
-        
-        view.style.opacity = '0';
-        storyBox.style.opacity = '0';
-        storyBox.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            view.style.display = 'none'; 
-            hub.style.display = 'grid'; 
-            setTimeout(() => { 
-                hub.style.opacity = '1'; 
-                window.scrollTo({ top: document.getElementById('work').offsetTop - 85, behavior: 'smooth' });
-            }, 50);
-        }, 400);
-    };
-
     function renderSubFilters(filters) {
         document.getElementById('sub-filters-ajax').innerHTML = filters.map((f, i) => 
             `<button class="sub-filter-btn ${i === 0 ? 'active' : ''}" onclick="changeSubFilter(event, '${f}')">${f}</button>`
@@ -748,7 +847,6 @@
             currentFilteredPhotos = galleryData[currentGalleryKey].photos.filter(p => filterName === 'All' || p.tag === filterName);
             
             currentFilteredPhotos.forEach((p, index) => {
-                // 🌟 SEO Alt-text 雙重注入: alt="${p.title} - ${p.loc}"
                 const itemHTML = `
                     <div class="v3-work-item reveal" onclick="openLightbox(${index})">
                         <div class="v3-img-box">
@@ -766,7 +864,6 @@
         }, 300);
     }
 
-    // 🌟 全新 Lightbox
     window.openLightbox = (index) => {
         const lb = document.getElementById('master-lightbox'); 
         if (!lb || currentFilteredPhotos.length === 0) return;
@@ -782,7 +879,6 @@
         img.style.opacity = '0';
         
         setTimeout(() => {
-            // 🌟 SEO Alt-text 注入 Lightbox 圖片
             const p = currentFilteredPhotos[index];
             img.src = p.src;
             img.alt = `${p.title} - ${p.loc} - Ming Chan Photography`;
