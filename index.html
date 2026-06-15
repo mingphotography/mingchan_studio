@@ -905,82 +905,56 @@
 
     //如果個檔案位置係 /data/promotion.json
     // 呢段 JS 會喺網頁 Load 完之後自動去搵個 JSON 檔
-    fetch('/data/promotion.json')
+   fetch('/data/promotion.json')
   .then(response => response.json())
   .then(data => {
-    // 檢查是否啟用以及是否未過期
     if (data.is_active && new Date() < new Date(data.expiry_date)) {
       const promo = document.createElement('div');
       promo.id = 'promo-popup';
       
-      // 1. 豪華外觀設定（加大尺寸、圓角、高質感陰影、定格右下角、加入過渡動畫）
+      // Popup 本體：z-index 降低，確保唔會遮住個 Menu
       promo.style.cssText = `
         position: fixed;
         bottom: 30px;
         right: 30px;
-        width: 380px;
-        max-width: 85vw;
-        z-index: 10000;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-        border-radius: 12px;
-        overflow: hidden;
-        background: #fff;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.4s ease, transform 0.4s ease;
+        width: 350px;
+        z-index: 999;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        border-radius: 8px;
+        overflow: visible;
+        background: transparent;
       `;
       
-      // 2. 自動讀取電郵與後台主題
       const yourEmail = "mingphotographyhk@gmail.com"; 
-      const encodedSubject = encodeURIComponent(data.subject || "Inquiry about Promotion");
-      const mailtoUrl = `mailto:${yourEmail}?subject=${encodedSubject}`;
+      const mailtoUrl = `mailto:${yourEmail}?subject=${encodeURIComponent(data.subject || "Promotion Inquiry")}`;
       
-      // 3. 注入 HTML：換上極簡奢華風細線 X 掣
       promo.innerHTML = `
-        <div style="position: relative; width: 100%; height: 100%;">
+        <div style="position: relative;">
           <button id="close-promo" style="
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            color: #666;
-            border: none;
-            width: 24px;
-            height: 24px;
+            top: -35px;
+            right: 0px;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
             cursor: pointer;
-            font-size: 28px;
-            font-weight: 200;
-            line-height: 20px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10002;
-            padding: 0;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            transition: color 0.2s ease, transform 0.2s ease;
-          " onmouseover="this.style.color='#000'; this.style.transform='scale(1.1)';" onmouseout="this.style.color='#666'; this.style.transform='scale(1)';">&times;</button>
+            font-size: 18px;
+            line-height: 1;
+            z-index: 1000;
+          ">&times;</button>
           
-          <a href="${mailtoUrl}" style="display: block; width: 100%; text-decoration: none; line-height: 0;">
-            <img src="${data.poster}" style="width: 100%; display: block; height: auto;">
+          <a href="${mailtoUrl}" style="display: block;">
+            <img src="${data.poster}" style="width: 100%; display: block; border-radius: 8px;">
           </a>
         </div>
       `;
       
       document.body.appendChild(promo);
       
-      // 4. 觸發「立體浮現」動畫（由下而上淡入）
-      setTimeout(() => {
-        promo.style.opacity = '1';
-        promo.style.transform = 'translateY(0)';
-      }, 100);
-      
-      // 5. 監聽 X 掣點擊事件：撳完順滑淡出並移除
-      document.getElementById('close-promo').addEventListener('click', (e) => {
-        e.preventDefault();
-        promo.style.opacity = '0';
-        promo.style.transform = 'translateY(20px)';
-        setTimeout(() => promo.remove(), 400);
+      document.getElementById('close-promo').addEventListener('click', () => {
+        promo.remove();
       });
     }
   });
