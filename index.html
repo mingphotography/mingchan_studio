@@ -450,6 +450,20 @@
     </div>
 </section>
 
+
+<section id="subscription" style="padding: 100px 10%; background: #F9F7F2; text-align: center; border-top: 1px solid #eee;">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; font-style: italic; margin-bottom: 15px;">The Inner Circle</h2>
+        <p style="font-size: 12px; line-height: 2; color: #666; font-weight: 300; margin-bottom: 40px; letter-spacing: 1px;">Subscribe to receive curated visual stories, exclusive promotion updates, and early access to our seasonal portrait sessions.</p>
+        
+        <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;" id="sub-form">
+            <input type="email" name="email" placeholder="ENTER YOUR EMAIL" required style="flex: 1; min-width: 250px; padding: 15px 20px; border: 1px solid #ddd; background: #fff; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 2px; outline: none; border-radius: 0; transition: border-color 0.3s;">
+            <button type="submit" style="background: #1a1a1a; color: #fff; border: none; padding: 15px 35px; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: background 0.3s;">Subscribe</button>
+        </form>
+        <p style="font-size: 9px; color: #aaa; margin-top: 15px; letter-spacing: 1px;">We respect your privacy. No spam, ever.</p>
+    </div>
+</section>
+
 <footer>
     <div class="social-links">
         <a href="https://www.instagram.com/ming__photography?igsh=MWUyZWhvZ3Z5bGh3Yw==" target="_blank">
@@ -490,27 +504,7 @@
     <button onclick="acceptCookies()">ACCEPT</button>
 </div>
 
-{% assign promo = site.data.promotion %}
-{% if promo and promo.is_active %}
-<div id="promo-popup" style="display: none; position: fixed; bottom: 25px; right: 25px; z-index: 10000; box-shadow: 0 15px 35px rgba(0,0,0,0.25); max-width: 320px; border-radius: 6px; overflow: hidden; animation: popIn 0.5s ease forwards;">
-    <button onclick="closePromo()" style="position: absolute; top: 8px; right: 8px; cursor: pointer; background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; z-index: 10001; font-size: 14px; transition: 0.3s;">&times;</button>
-    <a href="mailto:ming@example.com?subject={{ promo.subject | uri_escape }}">
-      <img src="{{ promo.poster }}" style="width: 100%; display: block; object-fit: cover;">
-    </a>
-</div>
-<style>
-    @keyframes popIn { 0% { transform: scale(0.9) translateY(20px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
-</style>
-<script>
-  const expiry = new Date("{{ promo.expiry_date }}");
-  if (new Date() < expiry) { 
-      document.getElementById('promo-popup').style.display = 'block'; 
-  }
-  function closePromo() {
-      document.getElementById('promo-popup').style.display = 'none';
-  }
-</script>
-{% endif %}
+
 
 <script>
     let currentFilteredPhotos = [];
@@ -909,80 +903,87 @@
         setTimeout(() => pLb.style.display = 'none', 500);
     };
 
-    // 模擬從 JSON 獲取資料，如果你個檔案位置係 /data/promotion.json
+    //如果個檔案位置係 /data/promotion.json
     // 呢段 JS 會喺網頁 Load 完之後自動去搵個 JSON 檔
     fetch('/data/promotion.json')
-      .then(response => response.json())
-      .then(data => {
-        // 檢查是否啟用以及是否未過期
-        if (data.is_active && new Date() < new Date(data.expiry_date)) {
-          const promo = document.createElement('div');
-          promo.id = 'promo-popup';
+  .then(response => response.json())
+  .then(data => {
+    // 檢查是否啟用以及是否未過期
+    if (data.is_active && new Date() < new Date(data.expiry_date)) {
+      const promo = document.createElement('div');
+      promo.id = 'promo-popup';
+      
+      // 1. 豪華外觀設定（加大尺寸、圓角、高質感陰影、定格右下角、加入過渡動畫）
+      promo.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 380px;
+        max-width: 85vw;
+        z-index: 10000;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      `;
+      
+      // 2. 自動讀取電郵與後台主題
+      const yourEmail = "mingphotographyhk@gmail.com"; 
+      const encodedSubject = encodeURIComponent(data.subject || "Inquiry about Promotion");
+      const mailtoUrl = `mailto:${yourEmail}?subject=${encodedSubject}`;
+      
+      // 3. 注入 HTML：換上極簡奢華風細線 X 掣
+      promo.innerHTML = `
+        <div style="position: relative; width: 100%; height: 100%;">
+          <button id="close-promo" style="
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            color: #666;
+            border: none;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 28px;
+            font-weight: 200;
+            line-height: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10002;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            transition: color 0.2s ease, transform 0.2s ease;
+          " onmouseover="this.style.color='#000'; this.style.transform='scale(1.1)';" onmouseout="this.style.color='#666'; this.style.transform='scale(1)';">&times;</button>
           
-          // 1. 豪華外觀設定（加大尺寸、圓角、高質感陰影、定格右下角）
-          promo.style.cssText = `
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 380px;
-            max-width: 85vw;
-            z-index: 10000;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-            border-radius: 12px;
-            overflow: hidden;
-            background: #fff;
-            transition: opacity 0.3s ease;
-          `;
-          
-          // 2. 設定你嘅真實電郵（請將下面換成你常用嘅 Email，例如 Gmail）
-          const yourEmail = "mingphotographyhk@gmail.com"; 
-          
-          // 自動讀取後台輸入嘅 Subject 並進行安全編碼
-          const encodedSubject = encodeURIComponent(data.subject || "Inquiry about Promotion");
-          const mailtoUrl = `mailto:${yourEmail}?subject=${encodedSubject}`;
-          
-          // 3. 注入 HTML：包含右上角嘅 X 掣以及圖片連結
-          promo.innerHTML = `
-            <div style="position: relative; width: 100%; height: 100%;">
-              <button id="close-promo" style="
-                position: absolute;
-                top: 12px;
-                right: 12px;
-                background: rgba(0, 0, 0, 0.6);
-                color: #fff;
-                border: none;
-                border-radius: 50%;
-                width: 30px;
-                height: 30px;
-                cursor: pointer;
-                font-size: 18px;
-                line-height: 28px;
-                text-align: center;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10002;
-                padding: 0;
-                font-family: Arial, sans-serif;
-                transition: background 0.2s;
-              " onmouseover="this.style.background='rgba(0,0,0,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">&times;</button>
-              
-              <a href="${mailtoUrl}" style="display: block; width: 100%; text-decoration: none; line-height: 0;">
-                <img src="${data.poster}" style="width: 100%; display: block; height: auto;">
-              </a>
-            </div>
-          `;
-          
-          document.body.appendChild(promo);
-          
-          // 4. 監聽 X 掣點擊事件：撳完淡出並移除元素
-          document.getElementById('close-promo').addEventListener('click', (e) => {
-            e.preventDefault();
-            promo.style.opacity = '0';
-            setTimeout(() => promo.remove(), 300); // 300ms 之後正式在網頁移除
-          });
-        }
+          <a href="${mailtoUrl}" style="display: block; width: 100%; text-decoration: none; line-height: 0;">
+            <img src="${data.poster}" style="width: 100%; display: block; height: auto;">
+          </a>
+        </div>
+      `;
+      
+      document.body.appendChild(promo);
+      
+      // 4. 觸發「立體浮現」動畫（由下而上淡入）
+      setTimeout(() => {
+        promo.style.opacity = '1';
+        promo.style.transform = 'translateY(0)';
+      }, 100);
+      
+      // 5. 監聽 X 掣點擊事件：撳完順滑淡出並移除
+      document.getElementById('close-promo').addEventListener('click', (e) => {
+        e.preventDefault();
+        promo.style.opacity = '0';
+        promo.style.transform = 'translateY(20px)';
+        setTimeout(() => promo.remove(), 400);
       });
+    }
+  });
 </script>
 </body>
 </html>
