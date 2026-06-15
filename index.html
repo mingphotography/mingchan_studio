@@ -912,23 +912,77 @@
     // 模擬從 JSON 獲取資料，如果你個檔案位置係 /data/promotion.json
     // 呢段 JS 會喺網頁 Load 完之後自動去搵個 JSON 檔
     fetch('/data/promotion.json')
-        .then(response => response.json())
-        .then(data => {
-        if (data.is_active) {
-            const expiry = new Date(data.expiry_date);
-            if (new Date() < expiry) {
-            const promoDiv = document.createElement('div');
-            promoDiv.id = 'promo-popup';
-            promoDiv.style.cssText = 'position:fixed; bottom:25px; right:25px; z-index:10000; box-shadow:0 15px 35px rgba(0,0,0,0.25); max-width:320px; border-radius:6px; overflow:hidden;';
-            promoDiv.innerHTML = `
-                <button onclick="this.parentElement.remove()" style="position:absolute; top:8px; right:8px; cursor:pointer; background:rgba(0,0,0,0.6); color:#fff; border:none; border-radius:50%; width:28px; height:28px; z-index:10001;">&times;</button>
-                <a href="mailto:mingchanphoto@gmail.com"><img src="${data.poster}" style="width:100%; display:block;"></a>
-            `;
-            document.body.appendChild(promoDiv);
-            }
+      .then(response => response.json())
+      .then(data => {
+        // 檢查是否啟用以及是否未過期
+        if (data.is_active && new Date() < new Date(data.expiry_date)) {
+          const promo = document.createElement('div');
+          promo.id = 'promo-popup';
+          
+          // 1. 豪華外觀設定（加大尺寸、圓角、高質感陰影、定格右下角）
+          promo.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 380px;
+            max-width: 85vw;
+            z-index: 10000;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            transition: opacity 0.3s ease;
+          `;
+          
+          // 2. 設定你嘅真實電郵（請將下面換成你常用嘅 Email，例如 Gmail）
+          const yourEmail = "mingphotographyhk@gmail.com"; 
+          
+          // 自動讀取後台輸入嘅 Subject 並進行安全編碼
+          const encodedSubject = encodeURIComponent(data.subject || "Inquiry about Promotion");
+          const mailtoUrl = `mailto:${yourEmail}?subject=${encodedSubject}`;
+          
+          // 3. 注入 HTML：包含右上角嘅 X 掣以及圖片連結
+          promo.innerHTML = `
+            <div style="position: relative; width: 100%; height: 100%;">
+              <button id="close-promo" style="
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(0, 0, 0, 0.6);
+                color: #fff;
+                border: none;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                font-size: 18px;
+                line-height: 28px;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10002;
+                padding: 0;
+                font-family: Arial, sans-serif;
+                transition: background 0.2s;
+              " onmouseover="this.style.background='rgba(0,0,0,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">&times;</button>
+              
+              <a href="${mailtoUrl}" style="display: block; width: 100%; text-decoration: none; line-height: 0;">
+                <img src="${data.poster}" style="width: 100%; display: block; height: auto;">
+              </a>
+            </div>
+          `;
+          
+          document.body.appendChild(promo);
+          
+          // 4. 監聽 X 掣點擊事件：撳完淡出並移除元素
+          document.getElementById('close-promo').addEventListener('click', (e) => {
+            e.preventDefault();
+            promo.style.opacity = '0';
+            setTimeout(() => promo.remove(), 300); // 300ms 之後正式在網頁移除
+          });
         }
-        })
-        .catch(err => console.log('Promotion not found or inactive.'));
+      });
 </script>
 </body>
 </html>
