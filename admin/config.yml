@@ -26,14 +26,15 @@ collections:
       - {label: "Rosewood Approved", name: "tag_rosewood", widget: "boolean", default: false, required: false}
       - {label: "Body Text", name: "body", widget: "markdown"}
 
-  - name: "promotion"
+  - name: "promotion_settings"
     label: "Promotion Settings"
-    folder: "content/promotion"
-    create: true
-    extension: "json"
-    format: "json"
-    fields:
-      - {label: "Show Promotion?", name: "is_active", widget: "boolean", default: false}
-      - {label: "Poster Image", name: "poster", widget: "image"}
-      - {label: "Expiry Date", name: "expiry_date", widget: "datetime", format: "YYYY-MM-DD"}
-      - {label: "Email Subject", name: "subject", widget: "string", default: "Inquiry about Promotion"}
+    files:
+      - label: "Promotion Details"
+        name: "promotion"
+        file: "data/promotion.json"  # <--- 呢度對應返你 HTML 嘅 fetch 路徑！
+        format: "json"
+        fields:
+          - {label: "Show Promotion?", name: "is_active", widget: "boolean", default: false}
+          - {label: "Poster Image", name: "poster", widget: "image"}
+          - {label: "Expiry Date", name: "expiry_date", widget: "datetime", format: "YYYY-MM-DD"}
+          - {label: "Email Subject", name: "subject", widget: "string", default: "Inquiry about Promotion"}
