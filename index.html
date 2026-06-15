@@ -909,9 +909,9 @@
         setTimeout(() => pLb.style.display = 'none', 500);
     };
 
-    // 模擬從 JSON 獲取資料，如果你個檔案位置係 /_data/promotion.json
+    // 模擬從 JSON 獲取資料，如果你個檔案位置係 /data/promotion.json
     // 呢段 JS 會喺網頁 Load 完之後自動去搵個 JSON 檔
-    fetch('/_data/promotion.json')
+    fetch('/data/promotion.json')
         .then(response => response.json())
         .then(data => {
         if (data.is_active) {
