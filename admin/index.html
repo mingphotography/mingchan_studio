@@ -1,25 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ming Chan Studio | Content Manager</title>
-  
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-</head>
-<body>
+backend:
+  name: git-gateway
+  branch: main
 
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("login", function() {
-          document.location.reload();
-        });
-      }
-    });
-  </script>
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
 
-</body>
-</html>
+collections:
+  - name: "journal"
+    label: "Journal (日誌)"
+    folder: "journal_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title (標題)", name: "title", widget: "string"}
+      - {label: "Date (日期)", name: "date", widget: "datetime", format: "YYYY-MM-DD"}
+      - {label: "Category (分類)", name: "category", widget: "select", options: ["Engagement", "Wedding", "Personal"]}
+      - {label: "Cover Image (封面圖片)", name: "cover", widget: "image"}
+      - {label: "Excerpt (摘要)", name: "excerpt", widget: "text"}
+      - {label: "Body (內文)", name: "body", widget: "markdown"}
+
+  - name: "selected_works_data"
+    label: "Selected Works (作品集自動化)"
+    files:
+      - label: "Selected Works Database"
+        name: "selected_works"
+        file: "data/selected_works.json"
+        format: "json"
+        fields:
+          - label: "Project List (專案列表)"
+            name: "projects"
+            widget: "list"
+            fields:
+              - {label: "Project Title (專案名稱)", name: "title", widget: "string", hint: "對應原本的 folder 名稱"}
+              - {label: "Main Category (主分類 Level 1)", name: "main_category", widget: "select", options: ["wedding", "prewedding", "portrait", "commercial"]}
+              - {label: "Sub Category (次分類 Level 2)", name: "sub_category", widget: "string", hint: "例如: UK, Hong Kong, Family, Fashion & Portrait"}
+              - {label: "Location Filter (地點分類 Level 3)", name: "location_filter", widget: "string", required: false, hint: "主要用於 Pre-Wedding (例如: London, Paris)"}
+              - {label: "Display Location (介面顯示地點)", name: "display_loc", widget: "string", hint: "例如: LONDON, UK"}
+              - {label: "Cover Image (封面圖片)", name: "cover", widget: "image"}
+              - {label: "Gallery Photos (相片集)", name: "photos", widget: "list", field: {label: "Photo", name: "photo", widget: "image"}}

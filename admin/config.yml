@@ -7,7 +7,50 @@ public_folder: "/images/uploads"
 
 collections:
   - name: "selected_works"
-    label: "Selected Works"
+    label: "Selected Works (Portfolio Gallery)"
+    folder: "content/works" # 獨立一個 folder 處理 Gallery 項目
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Project Title (Folder Name)", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Cover Image", name: "thumbnail", widget: "image"}
+      - label: "Gallery Photos"
+        name: "photos"
+        widget: "list"
+        field: {label: "Photo", name: "photo", widget: "image"}
+      - label: "Main Project Type"
+        name: "project_type"
+        widget: "select"
+        options: ["Wedding", "Pre-Wedding", "Portrait", "Commercial"]
+      - label: "Category / Region (Primary Menu)"
+        name: "category"
+        widget: "select"
+        options: 
+          - "UK"
+          - "Destinations"
+          - "Hong Kong"
+          - "Studio"
+          - "Family"
+          - "Maternity"
+          - "Engagement & Portrait"
+          - "Graduation"
+          - "Fashion & Portrait"
+          - "Corporate"
+          - "Advertising"
+          - "Jewellery"
+          - "Food"
+          - "Interior"
+          - "Events"
+        hint: "選擇你的大分類（如 Pre-Wedding 的 'UK'，或 Portrait 的 'Family'）"
+      - label: "Location Tag (City / Venue)"
+        name: "location"
+        widget: "string"
+        required: false
+        hint: "例如 'London', 'Paris', 'Studio'。對於 Wedding，這會變成第二層 Menu；對於 Portrait/Commercial，這只會顯示為相片下方的 Caption。"
+
+  - name: "journal"
+    label: "Journal (日誌文章)"
     folder: "content/journal"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -31,7 +74,7 @@ collections:
     files:
       - label: "Promotion Details"
         name: "promotion"
-        file: "data/promotion.json"  # <--- 呢度對應返你 HTML 嘅 fetch 路徑！
+        file: "data/promotion.json"
         format: "json"
         fields:
           - {label: "Show Promotion?", name: "is_active", widget: "boolean", default: false}
