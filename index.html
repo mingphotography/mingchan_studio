@@ -112,11 +112,11 @@
            ========================================== */
         .section-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; text-align: center; }
         
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; padding: 0; overflow: hidden; background: #000; }
-        .hero-img-box { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; }
+        .hero { height: 100vh; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; padding: 0; overflow: hidden; background: #000; }
+        .hero-img-box { width: 100vw; height: 100vh; height: 100dvh; position: absolute; top: 0; left: 0; z-index: 1; }
         .hero-img-box::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to top, var(--bg-beige) 5%, rgba(249, 247, 242, 0.7) 30%, transparent 100%); pointer-events: none; z-index: 2; }
         
-        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; object-fit: cover; transform: scale(1.05); transition: opacity 2.5s ease-in-out, transform 8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; height: 100dvh; opacity: 0; object-fit: cover; transform: scale(1.05); transition: opacity 2.5s ease-in-out, transform 8s cubic-bezier(0.25, 1, 0.5, 1); }
         .slide.active { opacity: 1; transform: scale(1); }
         
         .hero-title { text-align: center; width: 100%; z-index: 3; position: relative; padding-bottom: 12vh; pointer-events: none; }
@@ -200,9 +200,9 @@
            ========================================== */
         #packery-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #F9F7F2; z-index: 10000; display: none; opacity: 0; transition: opacity 0.5s ease; overflow-y: auto; }
         .packery-header { position: sticky; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(15px); z-index: 10002; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .packery-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: #1a1a1a; }
-        .packery-controls { display: flex; gap: 30px; align-items: center; }
-        .control-btn { font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; color: #1a1a1a; transition: 0.3s; font-weight: 300; }
+        .packery-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 65%; }
+        .packery-controls { display: flex; gap: 20px; align-items: center; white-space: nowrap; }
+        .control-btn { font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; color: #1a1a1a; transition: 0.3s; font-weight: 300; white-space: nowrap; }
         .control-btn:hover { opacity: 0.6; }
 
         .packery-grid-container { padding: 30px 5%; max-width: 1600px; margin: 0 auto; }
@@ -216,10 +216,10 @@
         .sl-btn { background: none; border: none; color: #1a1a1a; cursor: pointer; width: 32px; height: 32px; opacity: 0.6; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
         .sl-btn:hover { opacity: 1; transform: scale(1.1); }
         .sl-btn svg { width: 22px; height: 22px; fill: currentColor; }
-        .sl-main-area { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; width: 100%; height: calc(100vh - 140px); margin-top: 60px; margin-bottom: 80px; overflow: hidden; }
+        .sl-main-area { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; width: 100%; height: calc(100vh - 140px); margin-top: 60px; margin-bottom: 80px; overflow: hidden; touch-action: none; }
         .sl-main-img { max-width: 85vw; max-height: 72vh; object-fit: contain; user-select: none; box-shadow: 0 10px 40px rgba(0,0,0,0.06); cursor: zoom-in; transform-origin: center center; opacity: 1; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform-origin 0.2s ease-out, opacity 0.35s ease-in-out; }
         .sl-main-img.fading { opacity: 0; }
-        .sl-main-img.zoomed { cursor: zoom-out; transform: scale(2.5); box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+        .sl-main-img.zoomed { cursor: zoom-out; transform: scale(2.5); box-shadow: 0 20px 60px rgba(0,0,0,0.1); touch-action: none; }
         .sl-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.85); border: 1px solid rgba(0,0,0,0.08); color: #1a1a1a; font-size: 24px; font-weight: 300; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0.7; transition: 0.3s; z-index: 10; backdrop-filter: blur(5px); }
         .sl-nav-btn:hover { opacity: 1; background: #000; color: #fff; }
         .sl-prev { left: 30px; }
@@ -328,12 +328,16 @@
             .hub-img-wrap { height: 38vh; }
             
             #gallery-images-ajax.story-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
-            .packery-grid { column-count: 4; column-gap: 4px; }
+            .packery-grid { column-count: 2; column-gap: 4px; }
             .packery-item { margin: 0 0 4px 0; }
+
+            .packery-header { padding: 15px 20px; }
+            .packery-title { font-size: 16px; max-width: 55%; }
+            .control-btn { font-size: 9px; letter-spacing: 1px; }
             
             .sl-top-bar { padding: 15px 20px; gap: 15px; }
             .sl-btn { width: 26px; height: 26px; }
-            .sl-main-area { height: calc(100vh - 120px); margin-top: 50px; margin-bottom: 70px; }
+            .sl-main-area { height: calc(100vh - 120px); height: calc(100dvh - 120px); margin-top: 50px; margin-bottom: 70px; }
             .sl-main-img { max-width: 92vw; max-height: 65vh; }
             .sl-bottom-bar { padding: 15px 20px; flex-direction: row; justify-content: space-between; align-items: center; }
             .sl-title-text { font-size: 16px; }
@@ -490,7 +494,7 @@
     <div class="packery-header">
         <div class="packery-title" id="packery-title">Folder Name</div>
         <div class="packery-controls">
-            <span class="control-btn" onclick="closePackeryLightbox()">Close ( &times; )</span>
+            <span class="control-btn" onclick="closePackeryLightbox()">CLOSE ( &times; )</span>
         </div>
     </div>
     <div class="packery-grid-container">
@@ -674,9 +678,8 @@
         if (!originalPath) return '';
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         if (isLocal) {
-            return originalPath; // 本地環境：保持 JPG 直讀，零改寫
+            return originalPath;
         }
-        // 線上環境：掛載 Netlify Image CDN，轉 WebP 及設定寬度
         const cleanPath = originalPath.startsWith('/') ? originalPath : '/' + originalPath;
         return `/.netlify/images?url=${encodeURIComponent(cleanPath)}&fm=webp&w=${width}&q=80`;
     }
@@ -698,7 +701,6 @@
                 if (err.name !== 'AbortError') console.error('Error sharing:', err);
             }
         } else {
-            // Fallback: Copy link to clipboard
             try {
                 await navigator.clipboard.writeText(window.location.href);
                 alert('Gallery link copied to clipboard!');
@@ -834,7 +836,6 @@
         const container = document.getElementById('journal-posts-container');
         if (!container) return;
         
-        // Show Skeleton Loading State
         container.innerHTML = Array(2).fill(0).map(() => `
             <div style="grid-column:span 12; display:flex; gap:40px; margin-bottom:80px; align-items:center;">
                 <div class="skeleton-card" style="width:55%; height:45vh;"></div>
@@ -1050,7 +1051,6 @@
     function renderFolders(foldersArray) {
         const grid = document.getElementById('gallery-images-ajax');
         
-        // Show Skeleton Cards before rendering
         grid.innerHTML = Array(5).fill(0).map(() => `<div class="skeleton-card"></div>`).join('');
         grid.style.opacity = '1';
 
@@ -1101,6 +1101,7 @@
     };
 
     let currentPhotos = []; let currentIndex = 0; let singleTitle = ""; let isZoomed = false; const slImg = document.getElementById('sl-main-img');
+    let panX = 0, panY = 0, startX = 0, startY = 0;
 
     window.openSingleImage = (index, photosArrStr, titleStr) => {
         try {
@@ -1113,14 +1114,63 @@
         }
     };
 
-    window.resetZoomState = () => { isZoomed = false; slImg.classList.remove('zoomed'); slImg.style.transformOrigin = 'center center'; };
+    window.resetZoomState = () => { 
+        isZoomed = false; 
+        panX = 0; panY = 0;
+        slImg.classList.remove('zoomed'); 
+        slImg.style.transform = '';
+        slImg.style.transformOrigin = 'center center'; 
+    };
+
     window.toggleSingleZoom = (e) => {
         isZoomed = !isZoomed;
-        if (isZoomed) { slImg.classList.add('zoomed'); if (e && e.offsetX !== undefined) updatePanPosition(e); } 
-        else { resetZoomState(); }
+        if (isZoomed) { 
+            slImg.classList.add('zoomed'); 
+            panX = 0; panY = 0;
+            if (e && e.offsetX !== undefined) {
+                updatePanPosition(e);
+            } else {
+                slImg.style.transform = 'scale(2.5)';
+            }
+        } else { 
+            resetZoomState(); 
+        }
     };
-    function updatePanPosition(e) { const xPercent = (e.offsetX / slImg.offsetWidth) * 100; const yPercent = (e.offsetY / slImg.offsetHeight) * 100; slImg.style.transformOrigin = `${xPercent}% ${yPercent}%`; }
-    slImg.addEventListener('mousemove', (e) => { if (isZoomed) updatePanPosition(e); });
+
+    function updatePanPosition(e) { 
+        const xPercent = (e.offsetX / slImg.offsetWidth) * 100; 
+        const yPercent = (e.offsetY / slImg.offsetHeight) * 100; 
+        slImg.style.transformOrigin = `${xPercent}% ${yPercent}%`; 
+        slImg.style.transform = 'scale(2.5)';
+    }
+
+    // Mouse & Touch Pan Support
+    slImg.addEventListener('mousemove', (e) => { 
+        if (isZoomed && e.buttons === 1) {
+            panX += e.movementX;
+            panY += e.movementY;
+            slImg.style.transform = `scale(2.5) translate(${panX}px, ${panY}px)`;
+        } else if (isZoomed && !e.buttons) {
+            updatePanPosition(e); 
+        }
+    });
+
+    slImg.addEventListener('touchstart', (e) => {
+        if (isZoomed && e.touches.length === 1) {
+            startX = e.touches[0].clientX - panX;
+            startY = e.touches[0].clientY - panY;
+        }
+    });
+
+    slImg.addEventListener('touchmove', (e) => {
+        if (isZoomed && e.touches.length === 1) {
+            panX = e.touches[0].clientX - startX;
+            panY = e.touches[0].clientY - startY;
+            slImg.style.transform = `scale(2.5) translate(${panX}px, ${panY}px)`;
+            e.preventDefault(); // 防止滾動頁面
+        }
+    }, { passive: false });
+
     slImg.addEventListener('click', (e) => { toggleSingleZoom(e); });
 
     window.updateSingleImageView = (useFade = true) => {
@@ -1161,7 +1211,7 @@
     window.toggleSingleFullscreen = () => {
         const elem = document.getElementById('single-lightbox'); const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
         if (!isFullscreen) { if (elem.requestFullscreen) elem.requestFullscreen(); else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen(); } 
-        else { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); }
+        else { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.exitFullscreen(); }
     };
 
     window.prevSingleImage = () => { resetZoomState(); if(currentIndex > 0) currentIndex--; else currentIndex = currentPhotos.length - 1; updateSingleImageView(true); };
@@ -1170,8 +1220,8 @@
 
     // Swipe
     let touchstartX = 0; let touchendX = 0;
-    document.getElementById('sl-touch-area').addEventListener('touchstart', e => { if (!isZoomed) touchstartX = e.changedTouches[0].screenX; });
-    document.getElementById('sl-touch-area').addEventListener('touchend', e => { if (!isZoomed) { touchendX = e.changedTouches[0].screenX; handleSwipe(); }});
+    document.getElementById('sl-touch-area').addEventListener('touchstart', e => { if (!isZoomed && e.touches.length === 1) touchstartX = e.touches[0].clientX; });
+    document.getElementById('sl-touch-area').addEventListener('touchend', e => { if (!isZoomed) { touchendX = e.changedTouches[0].clientX; handleSwipe(); }});
     function handleSwipe() { if (touchendX < touchstartX - 50) nextSingleImage(); if (touchendX > touchstartX + 50) prevSingleImage(); }
 </script>
 </body>
