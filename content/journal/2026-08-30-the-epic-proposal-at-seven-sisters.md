@@ -13,7 +13,7 @@ tag_rosewood: false
 ---
 My first time shooting at the iconic Seven Sisters was nothing short of a covert operation—a secretly captured proposal.
 
-![](/images/uploads/1000150422-01.jpeg)
+![](/images/uploads/img_20260830_103910_030.jpg)
 
 This mission truly tested our endurance. It involved a demanding three-and-a-half-hour drive just to reach the breathtaking location. The journey back was equally challenging, with unexpected traffic accidents heavily delaying my return until 3:30 in the morning!
 
