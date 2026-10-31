@@ -2,11 +2,11 @@ backend:
   name: git-gateway
   branch: main
 
-# 開啟草稿箱 (Workflow) 功能
+# 開啟草稿箱 (Editorial Workflow) 功能
 publish_mode: editorial_workflow
 
-media_folder: "assets/images"
-public_folder: "/assets/images"
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
 
 collections:
   # ==========================================
@@ -42,53 +42,84 @@ collections:
   # ==========================================
   # 2. 作品集 (Selected Works) 管理
   # ==========================================
-  - name: "portfolio"
-    label: "作品集 (Selected Works)"
-    folder: "content/portfolio"
+  - name: "selected_works"
+    label: "📁 作品集 (Selected Works)"
+    folder: "content/works"
     create: true
-    slug: "{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "相簿名稱 (Folder Name)", name: "title", widget: "string", hint: "例如：Smith & Angel" }
-      - { 
-          label: "分類 (Category)", 
-          name: "category", 
-          widget: "select", 
-          options: ["Wedding", "Pre-Wedding", "Portraits", "Commercial"],
-          default: "Wedding"
-        }
-      - { label: "拍攝地點 (Location)", name: "location", widget: "string", required: false, hint: "例如：LONDON, UK" }
-      - { label: "封面圖片 (Cover Image)", name: "cover", widget: "image", required: true }
-      - { 
-          label: "相簿內容圖片 (Gallery Photos)", 
-          name: "photos", 
-          widget: "list", 
-          field: { label: "相片", name: "photo", widget: "image" },
-          hint: "可以一次過上傳多張相片到這個相簿"
-        }
+      - { label: "Project Title (Folder Name)", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Cover Image", name: "thumbnail", widget: "image" }
+      - label: "Gallery Photos"
+        name: "photos"
+        widget: "list"
+        field: { label: "Photo", name: "photo", widget: "image" }
+      - label: "Main Project Type"
+        name: "project_type"
+        widget: "select"
+        options: ["Wedding", "Pre-Wedding", "Portrait", "Commercial"]
+      - label: "Category / Region (Primary Menu)"
+        name: "category"
+        widget: "select"
+        options: 
+          - "UK"
+          - "Destinations"
+          - "Hong Kong"
+          - "Studio"
+          - "Family"
+          - "Maternity"
+          - "Engagement & Portrait"
+          - "Graduation"
+          - "Fashion & Portrait"
+          - "Corporate"
+          - "Advertising"
+          - "Jewellery"
+          - "Food"
+          - "Interior"
+          - "Events"
+        hint: "選擇你的大分類（如 Pre-Wedding 的 'UK'，或 Portrait 的 'Family'）"
+      - label: "Location Tag (City / Venue)"
+        name: "location"
+        widget: "string"
+        required: false
+        hint: "例如 'London', 'Paris', 'Studio'。對於 Wedding，這會變成第二層 Menu；對於 Portrait/Commercial，這只會顯示為相片下方的 Caption。"
 
   # ==========================================
   # 3. 日誌文章 (Journal) 管理
   # ==========================================
   - name: "journal"
-    label: "日誌文章 (Journal)"
+    label: "📖 日誌文章 (Journal)"
     folder: "content/journal"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { name: "title", label: "文章標題 (Title)", widget: "string", hint: "例如：Chloe & Perry | A Quiet Proposal at Seven Sisters" }
-      - { name: "date", label: "發布日期 (Publish Date)", widget: "datetime", format: "YYYY-MM-DD HH:mm" }
-      - { name: "cover", label: "封面圖片 (Cover Image)", widget: "image", required: true }
-      - { name: "snippet", label: "文章摘要 (Short Intro)", widget: "text", required: false }
-      - { name: "location", label: "拍攝地點 (Location)", widget: "string", required: false }
-      - { 
-          name: "type", 
-          label: "拍攝項目類型", 
-          widget: "select", 
-          options: ["Pre-Wedding", "Proposal", "Wedding Day", "Portrait", "Editorial"],
-          default: "Pre-Wedding" 
-        }
-      - { 
-          name: "body", 
-          label: "文章內文與相片 (Body Text & Images)", 
-          widget: "markdown"
-        }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Cover Image", name: "thumbnail", widget: "image" }
+      - { label: "Snippet (Short Intro)", name: "snippet", widget: "text", required: false }
+      - { label: "Location", name: "location", widget: "string", required: false }
+      - label: "Project Type"
+        name: "project_type"
+        widget: "select"
+        options: ["Pre-Wedding", "Wedding Day", "Portrait", "Commercial", "Editorial"]
+        required: false
+      - { label: "Member of HKPPA", name: "tag_hkppa", widget: "boolean", default: false, required: false }
+      - { label: "Rosewood Approved", name: "tag_rosewood", widget: "boolean", default: false, required: false }
+      - { label: "Body Text", name: "body", widget: "markdown" }
+
+  # ==========================================
+  # 4. 限時優惠設定 (Promotion Settings)
+  # ==========================================
+  - name: "promotion_settings"
+    label: "🎁 限時優惠設定 (Promotion)"
+    files:
+      - label: "優惠彈窗與宣傳管理"
+        name: "promotion"
+        file: "data/promotion.json"
+        format: "json"
+        fields:
+          - { label: "🔔 是否啟用優惠彈窗？ (Show Promotion)", name: "is_active", widget: "boolean", default: false, hint: "開啟後（打勾），訪客瀏覽主頁時會自動彈出推廣海報；關閉即隱藏。" }
+          - { label: "🖼️ 優惠宣傳海報 (Poster Image)", name: "poster", widget: "image", hint: "上傳你要向客人展示的宣傳海報圖片。" }
+          - { label: "📅 優惠截止日期 (Expiry Date)", name: "expiry_date", widget: "datetime", format: "YYYY-MM-DD", hint: "設定優惠活動的最後有效日期。" }
+          - { label: "✉️ 預設查詢電郵主旨 (Email Subject)", name: "subject", widget: "string", default: "Inquiry about Promotion", hint: "當客人點擊優惠海報的查詢時，自動帶入電郵的主旨文字。" }
