@@ -2,82 +2,68 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+# 💡 開啟草稿箱 (Workflow) 功能：寫完文章按 Save 會進入 Draft，不會立刻公開上網
+publish_mode: editorial_workflow
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
 
 collections:
-  - name: "selected_works"
-    label: "Selected Works (Portfolio Gallery)"
-    folder: "content/works" # 獨立一個 folder 處理 Gallery 項目
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - {label: "Project Title (Folder Name)", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Cover Image", name: "thumbnail", widget: "image"}
-      - label: "Gallery Photos"
-        name: "photos"
-        widget: "list"
-        field: {label: "Photo", name: "photo", widget: "image"}
-      - label: "Main Project Type"
-        name: "project_type"
-        widget: "select"
-        options: ["Wedding", "Pre-Wedding", "Portrait", "Commercial"]
-      - label: "Category / Region (Primary Menu)"
-        name: "category"
-        widget: "select"
-        options: 
-          - "UK"
-          - "Destinations"
-          - "Hong Kong"
-          - "Studio"
-          - "Family"
-          - "Maternity"
-          - "Engagement & Portrait"
-          - "Graduation"
-          - "Fashion & Portrait"
-          - "Corporate"
-          - "Advertising"
-          - "Jewellery"
-          - "Food"
-          - "Interior"
-          - "Events"
-        hint: "選擇你的大分類（如 Pre-Wedding 的 'UK'，或 Portrait 的 'Family'）"
-      - label: "Location Tag (City / Venue)"
-        name: "location"
-        widget: "string"
-        required: false
-        hint: "例如 'London', 'Paris', 'Studio'。對於 Wedding，這會變成第二層 Menu；對於 Portrait/Commercial，這只會顯示為相片下方的 Caption。"
+  # ==========================================
+  # 1. 輪播 Hero 圖片管理 (新增：可由 Ming 自行更改首頁 6 張大圖)
+  # ==========================================
+  - name: "hero_settings"
+    label: "首頁 Hero 大圖設定"
+    files:
+      - file: "content/hero.json"
+        label: "首頁 6 張輪播相片"
+        name: "hero_slides"
+        fields:
+          - label: "Hero 相片列表 (建議設定 6 張)"
+            name: "slides"
+            widget: "list"
+            fields:
+              - { label: "相片檔", name: "image", widget: "image", required: true }
+              - { label: "相片主題/地點 (如：SEVEN SISTERS, UK)", name: "title", widget: "string", required: false }
+              - { 
+                  label: "主體焦點位置 (防止手機直向裁切主體)", 
+                  name: "focus", 
+                  widget: "select", 
+                  options: [
+                    { label: "置中 (預設 - 主體喺中間)", value: "center center" },
+                    { label: "靠左 (主體喺左邊)", value: "left center" },
+                    { label: "靠右 (主體喺右邊)", value: "right center" }
+                  ],
+                  default: "center center",
+                  hint: "如果相片主角偏左/偏右，簡呢度可以防止手機睇嗰陣裁切掉主角"
+                }
 
+  # ==========================================
+  # 2. Journal 日誌文章管理
+  # ==========================================
   - name: "journal"
-    label: "Journal (日誌文章)"
+    label: "日誌文章 (Journal)"
     folder: "content/journal"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Cover Image", name: "thumbnail", widget: "image"}
-      - {label: "Snippet (Short Intro)", name: "snippet", widget: "text", required: false}
-      - {label: "Location", name: "location", widget: "string", required: false}
-      - label: "Project Type"
-        name: "project_type"
-        widget: "select"
-        options: ["Pre-Wedding", "Wedding Day", "Portrait", "Commercial", "Editorial"]
-        required: false
-      - {label: "Member of HKPPA", name: "tag_hkppa", widget: "boolean", default: false, required: false}
-      - {label: "Rosewood Approved", name: "tag_rosewood", widget: "boolean", default: false, required: false}
-      - {label: "Body Text", name: "body", widget: "markdown"}
-
-  - name: "promotion_settings"
-    label: "Promotion Settings"
-    files:
-      - label: "Promotion Details"
-        name: "promotion"
-        file: "data/promotion.json"
-        format: "json"
-        fields:
-          - {label: "Show Promotion?", name: "is_active", widget: "boolean", default: false}
-          - {label: "Poster Image", name: "poster", widget: "image"}
-          - {label: "Expiry Date", name: "expiry_date", widget: "datetime", format: "YYYY-MM-DD"}
-          - {label: "Email Subject", name: "subject", widget: "string", default: "Inquiry about Promotion"}
+      - { name: "title", label: "文章標題 (Title)", widget: "string", hint: "例如：Chloe & Perry | A Quiet Proposal at Seven Sisters" }
+      - { name: "date", label: "發布日期 (Publish Date)", widget: "datetime", format: "YYYY-MM-DD HH:mm", hint: "設定未來日期代表預定時間公開" }
+      - { name: "cover", label: "封面圖片 (Cover Image)", widget: "image", required: true, hint: "建議上傳 16:9 橫相" }
+      - { name: "snippet", label: "文章摘要 (Short Intro)", widget: "text", required: false, hint: "1-2 句話概括重點，顯示在文章列表卡片" }
+      - { name: "location", label: "拍攝地點 (Location)", widget: "string", required: false, hint: "例如：UK / Hong Kong / Paris" }
+      - { 
+          name: "type", 
+          label: "拍攝項目類型", 
+          widget: "select", 
+          options: ["Pre-Wedding", "Proposal", "Wedding Day", "Portrait", "Editorial"],
+          default: "Pre-Wedding" 
+        }
+      - { name: "hkppa", label: "HKPPA 會員作品", widget: "boolean", default: false, required: false }
+      - { name: "rosewood", label: "Rosewood 認可作品", widget: "boolean", default: false, required: false }
+      - { 
+          name: "body", 
+          label: "文章內文與相片 (Body Text & Images)", 
+          widget: "markdown",
+          hint: "點擊工具列的「+」或圖片圖示，即可在段落之間插入相片"
+        }
