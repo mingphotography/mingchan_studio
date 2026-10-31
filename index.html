@@ -765,25 +765,49 @@
     let heroTimer;
 
     function initHero() {
-        document.getElementById('hc-total').innerText = (slides.length < 10 ? "0" : "") + slides.length;
-        showHero(hIdx);
-        heroTimer = setTimeout(autoPlayHero, 6000);
+    // 💡 防重複計時機制：每次初始化先清空舊計時器，杜絕閃爍
+    if (typeof heroTimer !== 'undefined' && heroTimer) {
+        clearTimeout(heroTimer);
+        heroTimer = null;
+    }
+
+    if (!slides || slides.length === 0) return;
+
+    document.getElementById('hc-total').innerText = (slides.length < 10 ? "0" : "") + slides.length;
+    showHero(hIdx);
+    heroTimer = setTimeout(autoPlayHero, 6000);
     }
 
     function showHero(index) {
-        for (let i = 0; i < slides.length; i++) slides[i].classList.remove("active");
+        if (!slides || slides.length === 0) return;
+
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].classList.remove("active");
+        }
         if (index > slides.length) hIdx = 1;
         if (index < 1) hIdx = slides.length;
-        if(slides.length > 0) {
-            slides[hIdx-1].classList.add("active");
-            document.getElementById("hc-current").innerText = (hIdx < 10 ? "0" : "") + hIdx;
+        
+        if (slides.length > 0) {
+            slides[hIdx - 1].classList.add("active");
+            
+            // 💡 防重複渲染機制：只有數字真係唔同嗰陣先改 DOM，解決跳動閃爍
+            const currentEl = document.getElementById('hc-current');
+            const newText = (hIdx < 10 ? "0" : "") + hIdx;
+            if (currentEl && currentEl.innerText !== newText) {
+                currentEl.innerText = newText;
+            }
         }
     }
 
     function heroNext() { hIdx++; showHero(hIdx); resetHeroTimer(); }
     function heroPrev() { hIdx--; showHero(hIdx); resetHeroTimer(); }
     function autoPlayHero() { hIdx++; showHero(hIdx); heroTimer = setTimeout(autoPlayHero, 6000); }
-    function resetHeroTimer() { clearTimeout(heroTimer); heroTimer = setTimeout(autoPlayHero, 6000); }
+    function resetHeroTimer() { 
+        if (typeof heroTimer !== 'undefined' && heroTimer) {
+            clearTimeout(heroTimer); 
+        }
+        heroTimer = setTimeout(autoPlayHero, 6000); 
+    }
 
     // 💡 需求 4：CMS 動態載入 6 張 Hero 相片與焦點位置 (Center/Left/Right)
     async function fetchHeroSettings() {
