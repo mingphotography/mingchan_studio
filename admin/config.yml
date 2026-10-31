@@ -13,29 +13,30 @@ collections:
   # 1. 首頁 Hero 大圖設定
   # ==========================================
   - name: "hero_settings"
-    label: "首頁 Hero 大圖設定"
+    label: "🌟 首頁大圖 (Hero Banner) 設定"
     files:
       - file: "content/hero.json"
-        label: "首頁 6 張輪播相片"
+        label: "首頁 6 張輪播大圖管理"
         name: "hero_slides"
         fields:
-          - label: "Hero 相片列表 (建議設定 6 張)"
+          - label: "👉 點擊下方按鈕以新增或修改首頁大圖 (建議設定 6 張)"
             name: "slides"
             widget: "list"
+            hint: "💡 提示：按「Add」新增相片；可以隨時用滑鼠上下拖曳來調整輪播順序。"
             fields:
-              - { label: "相片檔", name: "image", widget: "image", required: true }
-              - { label: "相片主題/地點 (如：SEVEN SISTERS, UK)", name: "title", widget: "string", required: false }
+              - { label: "🖼️ 選擇相片檔", name: "image", widget: "image", required: true, hint: "建議上傳高清橫向大圖" }
+              - { label: "📍 相片主題 / 地點文字 (可選)", name: "title", widget: "string", required: false, hint: "例如：SEVEN SISTERS, UK" }
               - { 
-                  label: "主體焦點位置 (防止手機直向裁切主體)", 
+                  label: "🎯 手機版主體焦點位置 (防裁切)", 
                   name: "focus", 
                   widget: "select", 
                   options: [
-                    { label: "置中 (預設 - 主體喺中間)", value: "center center" },
-                    { label: "靠左 (主體喺左邊)", value: "left center" },
-                    { label: "靠右 (主體喺右邊)", value: "right center" }
+                    { label: "置中 (預設 - 主體在中間)", value: "center center" },
+                    { label: "靠左 (主角在左邊時選這個)", value: "left center" },
+                    { label: "靠右 (主角在右邊時選這個)", value: "right center" }
                   ],
                   default: "center center",
-                  hint: "如果相片主角偏左/偏右，揀呢度可以防止手機睇嗰陣裁切掉主角"
+                  hint: "⚠️ 手機直向瀏覽時橫相左右會被裁切。如果主角偏左或偏右，請在這裡更改對齊方向！"
                 }
 
   # ==========================================
