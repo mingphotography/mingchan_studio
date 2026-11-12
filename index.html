@@ -790,7 +790,7 @@
         if (slides.length > 0) {
             slides[hIdx - 1].classList.add("active");
             
-            // 💡 防重複渲染機制：只有數字真係唔同嗰陣先改 DOM，解決跳動閃爍
+            // 💡 這裡對應你原本的 hc-current，並加上防重複渲染機制，解決數字跳動閃爍
             const currentEl = document.getElementById('hc-current');
             const newText = (hIdx < 10 ? "0" : "") + hIdx;
             if (currentEl && currentEl.innerText !== newText) {
