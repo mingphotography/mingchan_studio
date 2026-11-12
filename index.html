@@ -119,11 +119,13 @@
         .slide { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; height: 100dvh; opacity: 0; object-fit: cover; 
             object-position: center center; 
-            transform: scale(1.05); transition: opacity 2.5s ease-in-out, transform 8s cubic-bezier(0.25, 1, 0.5, 1); 
+            transform: scale(1.05); 
+            /* 💡 縮短轉場時間至 1.3s，令轉換更爽快流暢，杜絕窒機感 */
+            transition: opacity 1.3s ease-in-out, transform 8s cubic-bezier(0.25, 1, 0.5, 1); 
         }
         .slide.active { opacity: 1; transform: scale(1); }
         
-        /* 💡 增加左右 padding 與限制 max-width，避免 slogan 碰觸右側 controls 產生重疊 */
+        /* 💡 標題置中，左右平衡 padding，不再受右側 Counter 影響 */
         .hero-title { 
             text-align: center; 
             width: 100%; 
@@ -132,14 +134,13 @@
             z-index: 3; 
             position: relative; 
             padding-bottom: 12vh; 
-            padding-left: 40px; 
-            padding-right: 90px; 
+            padding-left: 30px; 
+            padding-right: 30px; 
             pointer-events: none; 
             transition: all 0.4s ease; 
         }
         .hero-title h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 9vw, 100px); font-weight: 300; font-style: italic; margin-bottom: 20px; color: var(--text-dark); }
         
-        /* 💡 鎖死固定字距，杜絕動畫引起的畫面重排跳動 */
         .slogan { 
             font-size: 10px; 
             color: #444; 
@@ -147,52 +148,69 @@
             margin: 0 auto; 
             text-transform: uppercase; 
             line-height: 2; 
-            letter-spacing: 4px; 
+            letter-spacing: 4px; /* 鎖死字距，杜絕動畫引起之跳動 */
         }
 
-        /* 💡 Hero 導航控制器與手機防閃爍（FOUC）防護 */
+        /* ==========================================
+           [💡 升級版：右側垂直精緻 Counter 排版]
+           ========================================== */
         .hero-controls { 
             position: absolute; 
-            bottom: 40px; 
-            right: 50px; 
+            bottom: 22vh; /* 放在右側中下方，完全避開底部標語文字 */
+            right: 35px; 
             z-index: 10; 
             display: flex; 
+            flex-direction: column; /* 垂直排列 */
             align-items: center; 
-            gap: 15px; 
+            gap: 10px; 
             font-family: 'Montserrat', sans-serif; 
             color: #1a1a1a; 
-            transition: opacity 0.4s ease;
-            opacity: 0; /* 預設隱藏，待 JS 初始化完成後順暢淡入 */
+            font-variant-numeric: tabular-nums; /* 強制等寬數字，防止載入時縮放 */
+            opacity: 0; 
+            transition: opacity 0.5s ease;
         }
         .hero-controls.loaded {
             opacity: 1;
         }
-        .hc-btn { font-size: 14px; cursor: pointer; padding: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; opacity: 0.6; }
-        .hc-btn:hover { opacity: 1; transform: scale(1.1); }
+        .hc-btn { 
+            font-size: 11px; 
+            cursor: pointer; 
+            padding: 8px; 
+            transition: 0.3s; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            opacity: 0.6; 
+        }
+        .hc-btn:hover { opacity: 1; transform: scale(1.2); }
         
         .hc-counter { 
             font-size: 11px; 
-            letter-spacing: 3px; 
+            letter-spacing: 2px; 
             font-weight: 300; 
-            opacity: 0.8; 
-            display: inline-flex; 
-            align-items: baseline; 
-            min-width: 45px; 
-            justify-content: center; 
+            opacity: 0.85; 
+            display: flex; 
+            flex-direction: column; /* 上下排列數字 */
+            align-items: center; 
+            gap: 5px;
         }
-        .hc-current { font-weight: 400; color: #000; display: inline-block; min-width: 1.2em; text-align: center; }
-        #hc-total { display: inline-block; min-width: 1.2em; text-align: center; }
+        .hc-divider {
+            width: 1px;
+            height: 16px;
+            background-color: rgba(26, 26, 26, 0.4);
+            margin: 2px 0;
+        }
+        .hc-current { font-weight: 400; color: #000; }
 
-        /* 💡 手機橫向 (Landscape) Media Query 防重疊 */
+        /* 手機橫向調整 */
         @media (max-height: 500px) and (orientation: landscape) {
-            .hero-title { padding-bottom: 6vh; padding-right: 70px; }
+            .hero-title { padding-bottom: 6vh; }
             .hero-title h1 { font-size: 32px; margin-bottom: 5px; }
             .slogan { font-size: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-            .hero-controls { bottom: 15px; right: 25px; gap: 8px; }
-            .hc-counter { font-size: 9px; }
+            .hero-controls { bottom: 15px; right: 20px; gap: 6px; }
         }
 
-        /* 💡 徹底移除 letter-spacing 動畫，僅保留效能極佳的 opacity 與 transform */
+        /* 效能優化動畫 (僅保留 opacity 與 transform) */
         @keyframes cinematicText {
             0% { opacity: 0; filter: blur(12px); transform: translateY(20px) scale(0.96); }
             100% { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
@@ -382,8 +400,8 @@
             .logo-box img { height: 50px; }
             .menu-toggle-fixed { top: 15px; right: 25px; }
             
-            .hero-title { padding-left: 20px; padding-right: 50px; }
-            .hero-controls { bottom: 30px; right: 20px; gap: 8px; }
+            .hero-title { padding-left: 20px; padding-right: 20px; }
+            .hero-controls { bottom: 18vh; right: 20px; gap: 8px; }
             .hc-btn { padding: 5px; }
 
             .profile-section { grid-template-columns: 1fr; padding: 60px 8%; gap: 40px; }
@@ -450,25 +468,23 @@
 </div>
 
 <section class="hero">
-    <div class="hero-img-box" id="heroSlider">
-        <img src="images/assets/hero-1.jpg" class="slide active">
-        <img src="images/assets/hero-2.jpg" class="slide">
-        <img src="images/assets/hero-3.jpg" class="slide">
-        <img src="images/assets/hero-4.jpg" class="slide">
-        <img src="images/assets/hero-5.jpg" class="slide">
-        <img src="images/assets/hero-6.jpg" class="slide">
-    </div>
+    <!-- 💡 保持留空容器，由 JS 單通道統一載入，徹底解決雙重加載與窒機感 -->
+    <div class="hero-img-box" id="heroSlider"></div>
     
     <div class="hero-title">
         <h1 class="cinematic-reveal">Orchestrating Stillness</h1>
         <p class="slogan cinematic-reveal-sub">Orchestrating timeless luxury weddings and high-impact commercial narratives with artistic precision.</p>
     </div>
 
-    <!-- Hero 導航控制器 -->
-    <div class="hero-controls cinematic-reveal-sub">
-        <span class="hc-btn" onclick="heroPrev()">〈</span>
-        <div class="hc-counter"><span id="hc-current" class="hc-current">01</span> / <span id="hc-total">06</span></div>
-        <span class="hc-btn" onclick="heroNext()">〉</span>
+    <!-- 💡 右側垂直精緻 Counter 控制器 (完美避開底部標語，永不撞字) -->
+    <div class="hero-controls">
+        <span class="hc-btn" onclick="heroPrev()">▲</span>
+        <div class="hc-counter">
+            <span id="hc-current" class="hc-current">01</span>
+            <span class="hc-divider"></span>
+            <span id="hc-total">06</span>
+        </div>
+        <span class="hc-btn" onclick="heroNext()">▼</span>
     </div>
 </section>
 
@@ -784,7 +800,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         initStack(); 
         loadJournalPosts();
-        fetchHeroSettings(); // 統一在此初始化，杜絕重複渲染與閃爍
+        fetchHeroSettings(); // 💡 統一在此單通道初始化，杜絕重複加載與閃爍
         
         document.querySelectorAll('.reveal-left, .reveal-right, .fade-up').forEach(el => obs.observe(el));
         
@@ -801,28 +817,31 @@
     // ==========================================
     // [HERO SLIDER WITH MANUAL OVERRIDE]
     // ==========================================
-    let slides = document.getElementsByClassName("slide");
+    let slides = [];
     let hIdx = 1;
     let heroTimer;
 
     function initHero() {
-        // 💡 防重複計時機制：每次初始化先清空舊計時器，杜絕閃爍
         if (typeof heroTimer !== 'undefined' && heroTimer) {
             clearTimeout(heroTimer);
             heroTimer = null;
         }
 
+        slides = document.getElementsByClassName("slide");
         if (!slides || slides.length === 0) return;
 
-        document.getElementById('hc-total').innerText = (slides.length < 10 ? "0" : "") + slides.length;
+        const totalEl = document.getElementById('hc-total');
+        if (totalEl) totalEl.innerText = (slides.length < 10 ? "0" : "") + slides.length;
+        
         showHero(hIdx);
         heroTimer = setTimeout(autoPlayHero, 6000);
 
-        // 💡 載入完成後淡入顯示控制器，消除手機端初次渲染的跳動與閃爍
+        // 💡 載入完成後淡入顯示右側控制器，流暢登場
         document.querySelector('.hero-controls')?.classList.add('loaded');
     }
 
     function showHero(index) {
+        slides = document.getElementsByClassName("slide");
         if (!slides || slides.length === 0) return;
 
         for (let i = 0; i < slides.length; i++) {
@@ -834,7 +853,6 @@
         if (slides.length > 0) {
             slides[hIdx - 1].classList.add("active");
             
-            // 💡 加上防重複渲染機制，解決數字跳動閃爍
             const currentEl = document.getElementById('hc-current');
             const newText = (hIdx < 10 ? "0" : "") + hIdx;
             if (currentEl && currentEl.innerText !== newText) {
@@ -853,24 +871,34 @@
         heroTimer = setTimeout(autoPlayHero, 6000); 
     }
 
-    // 💡 CMS 動態載入 6 張 Hero 相片與焦點位置，並在結尾統一初始化一次
+    // 💡 統一單通道 Hero 設定載入（支援 CMS JSON，並設有預設 Fallback，杜絕重複下載與 Hang 機感）
     async function fetchHeroSettings() {
+        const sliderBox = document.getElementById('heroSlider');
+        let slideList = [
+            { image: 'images/assets/hero-1.jpg', focus: 'center center' },
+            { image: 'images/assets/hero-2.jpg', focus: 'center center' },
+            { image: 'images/assets/hero-3.jpg', focus: 'center center' },
+            { image: 'images/assets/hero-4.jpg', focus: 'center center' },
+            { image: 'images/assets/hero-5.jpg', focus: 'center center' },
+            { image: 'images/assets/hero-6.jpg', focus: 'center center' }
+        ];
+
         try {
             const res = await fetch('content/hero.json');
-            if (!res.ok) throw new Error('CMS config not found');
-            const data = await res.json();
-
-            if (data && data.slides && data.slides.length > 0) {
-                const sliderBox = document.getElementById('heroSlider');
-                sliderBox.innerHTML = data.slides.map((s, idx) => `
-                    <img src="${getOptimizedImgUrl(s.image, 1600)}" class="slide ${idx === 0 ? 'active' : ''}" style="object-position: ${s.focus || 'center center'};">
-                `).join('');
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.slides && data.slides.length > 0) {
+                    slideList = data.slides;
+                }
             }
         } catch (e) {
-            console.log('Using default static hero slides.');
+            console.log('Using default fallback slides.');
         }
 
-        slides = document.getElementsByClassName("slide");
+        sliderBox.innerHTML = slideList.map((s, idx) => `
+            <img src="${getOptimizedImgUrl(s.image, 1600)}" class="slide ${idx === 0 ? 'active' : ''}" style="object-position: ${s.focus || 'center center'};">
+        `).join('');
+
         hIdx = 1;
         initHero();
     }
