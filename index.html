@@ -123,7 +123,7 @@
         }
         .slide.active { opacity: 1; transform: scale(1); }
         
-        /* 💡 修正：增加左右 padding 與限制 max-width，避免 slogan 碰觸右側 controls 產生重疊 */
+        /* 💡 增加左右 padding 與限制 max-width，避免 slogan 碰觸右側 controls 產生重疊 */
         .hero-title { 
             text-align: center; 
             width: 100%; 
@@ -138,7 +138,17 @@
             transition: all 0.4s ease; 
         }
         .hero-title h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 9vw, 100px); font-weight: 300; font-style: italic; margin-bottom: 20px; color: var(--text-dark); }
-        .slogan { font-size: 10px; color: #444; max-width: 600px; margin: 0 auto; text-transform: uppercase; line-height: 2; }
+        
+        /* 💡 鎖死固定字距，杜絕動畫引起的畫面重排跳動 */
+        .slogan { 
+            font-size: 10px; 
+            color: #444; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            text-transform: uppercase; 
+            line-height: 2; 
+            letter-spacing: 4px; 
+        }
 
         /* 💡 Hero 導航控制器與手機防閃爍（FOUC）防護 */
         .hero-controls { 
@@ -152,7 +162,7 @@
             font-family: 'Montserrat', sans-serif; 
             color: #1a1a1a; 
             transition: opacity 0.4s ease;
-            opacity: 0; /* 預設隱藏，待 JS 準備好後淡入，消除手機端跳動 */
+            opacity: 0; /* 預設隱藏，待 JS 初始化完成後順暢淡入 */
         }
         .hero-controls.loaded {
             opacity: 1;
@@ -182,13 +192,14 @@
             .hc-counter { font-size: 9px; }
         }
 
+        /* 💡 徹底移除 letter-spacing 動畫，僅保留效能極佳的 opacity 與 transform */
         @keyframes cinematicText {
-            0% { opacity: 0; filter: blur(12px); transform: translateY(20px) scale(0.96); letter-spacing: -2px; }
-            100% { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); letter-spacing: normal; }
+            0% { opacity: 0; filter: blur(12px); transform: translateY(20px) scale(0.96); }
+            100% { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
         }
         @keyframes cinematicSub {
-            0% { opacity: 0; transform: translateY(15px); letter-spacing: 2px; }
-            100% { opacity: 1; transform: translateY(0); letter-spacing: 6px; }
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
         .cinematic-reveal { animation: cinematicText 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
         .cinematic-reveal-sub { animation: cinematicSub 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.8s; opacity: 0; }
@@ -771,10 +782,9 @@
     }, { threshold: 0.2 });
 
     document.addEventListener('DOMContentLoaded', () => {
-        initHero();
         initStack(); 
         loadJournalPosts();
-        fetchHeroSettings(); 
+        fetchHeroSettings(); // 統一在此初始化，杜絕重複渲染與閃爍
         
         document.querySelectorAll('.reveal-left, .reveal-right, .fade-up').forEach(el => obs.observe(el));
         
@@ -843,11 +853,11 @@
         heroTimer = setTimeout(autoPlayHero, 6000); 
     }
 
-    // 💡 CMS 動態載入 6 張 Hero 相片與焦點位置 (Center/Left/Right)
+    // 💡 CMS 動態載入 6 張 Hero 相片與焦點位置，並在結尾統一初始化一次
     async function fetchHeroSettings() {
         try {
             const res = await fetch('content/hero.json');
-            if (!res.ok) return;
+            if (!res.ok) throw new Error('CMS config not found');
             const data = await res.json();
 
             if (data && data.slides && data.slides.length > 0) {
@@ -855,14 +865,14 @@
                 sliderBox.innerHTML = data.slides.map((s, idx) => `
                     <img src="${getOptimizedImgUrl(s.image, 1600)}" class="slide ${idx === 0 ? 'active' : ''}" style="object-position: ${s.focus || 'center center'};">
                 `).join('');
-                
-                slides = document.getElementsByClassName("slide");
-                hIdx = 1;
-                initHero();
             }
         } catch (e) {
             console.log('Using default static hero slides.');
         }
+
+        slides = document.getElementsByClassName("slide");
+        hIdx = 1;
+        initHero();
     }
 
     // Scroll Nav & Fixed Toggle
