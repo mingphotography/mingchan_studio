@@ -118,34 +118,64 @@
         
         .slide { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; height: 100dvh; opacity: 0; object-fit: cover; 
-            
-            /* 💡 需求 3：預設為中央置中 */
             object-position: center center; 
-
             transform: scale(1.05); transition: opacity 2.5s ease-in-out, transform 8s cubic-bezier(0.25, 1, 0.5, 1); 
-            
-            /* 
-               📝 【Ming 備忘錄 - 如何手動調整 Hero 相片裁切焦點】：
-               當手機直向睇橫相時，左右邊會被裁切。如果某張相的主角偏右或偏左，可以手動改為：
-               - object-position: left center;  (主角喺左邊，靠左對齊)
-               - object-position: right center; (主角喺右邊，靠右對齊)
-            */
         }
         .slide.active { opacity: 1; transform: scale(1); }
         
-        .hero-title { text-align: center; width: 100%; z-index: 3; position: relative; padding-bottom: 12vh; pointer-events: none; transition: all 0.4s ease; }
+        /* 💡 修正：增加左右 padding 與限制 max-width，避免 slogan 碰觸右側 controls 產生重疊 */
+        .hero-title { 
+            text-align: center; 
+            width: 100%; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            z-index: 3; 
+            position: relative; 
+            padding-bottom: 12vh; 
+            padding-left: 40px; 
+            padding-right: 90px; 
+            pointer-events: none; 
+            transition: all 0.4s ease; 
+        }
         .hero-title h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 9vw, 100px); font-weight: 300; font-style: italic; margin-bottom: 20px; color: var(--text-dark); }
-        .slogan { font-size: 10px; color: #444; max-width: 650px; margin: 0 auto; text-transform: uppercase; line-height: 2; }
+        .slogan { font-size: 10px; color: #444; max-width: 600px; margin: 0 auto; text-transform: uppercase; line-height: 2; }
 
-        .hero-controls { position: absolute; bottom: 40px; right: 50px; z-index: 10; display: flex; align-items: center; gap: 15px; font-family: 'Montserrat', sans-serif; color: #1a1a1a; transition: all 0.4s ease; }
+        /* 💡 Hero 導航控制器與手機防閃爍（FOUC）防護 */
+        .hero-controls { 
+            position: absolute; 
+            bottom: 40px; 
+            right: 50px; 
+            z-index: 10; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            font-family: 'Montserrat', sans-serif; 
+            color: #1a1a1a; 
+            transition: opacity 0.4s ease;
+            opacity: 0; /* 預設隱藏，待 JS 準備好後淡入，消除手機端跳動 */
+        }
+        .hero-controls.loaded {
+            opacity: 1;
+        }
         .hc-btn { font-size: 14px; cursor: pointer; padding: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; opacity: 0.6; }
         .hc-btn:hover { opacity: 1; transform: scale(1.1); }
-        .hc-counter { font-size: 11px; letter-spacing: 3px; font-weight: 300; opacity: 0.8; }
-        .hc-current { font-weight: 400; color: #000; }
+        
+        .hc-counter { 
+            font-size: 11px; 
+            letter-spacing: 3px; 
+            font-weight: 300; 
+            opacity: 0.8; 
+            display: inline-flex; 
+            align-items: baseline; 
+            min-width: 45px; 
+            justify-content: center; 
+        }
+        .hc-current { font-weight: 400; color: #000; display: inline-block; min-width: 1.2em; text-align: center; }
+        #hc-total { display: inline-block; min-width: 1.2em; text-align: center; }
 
-        /* 💡 需求 2：手機橫向 (Landscape) Media Query 防重疊 */
+        /* 💡 手機橫向 (Landscape) Media Query 防重疊 */
         @media (max-height: 500px) and (orientation: landscape) {
-            .hero-title { padding-bottom: 6vh; }
+            .hero-title { padding-bottom: 6vh; padding-right: 70px; }
             .hero-title h1 { font-size: 32px; margin-bottom: 5px; }
             .slogan { font-size: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
             .hero-controls { bottom: 15px; right: 25px; gap: 8px; }
@@ -341,6 +371,7 @@
             .logo-box img { height: 50px; }
             .menu-toggle-fixed { top: 15px; right: 25px; }
             
+            .hero-title { padding-left: 20px; padding-right: 50px; }
             .hero-controls { bottom: 30px; right: 20px; gap: 8px; }
             .hc-btn { padding: 5px; }
 
@@ -743,7 +774,7 @@
         initHero();
         initStack(); 
         loadJournalPosts();
-        fetchHeroSettings(); // 💡 需求 4：載入 CMS 輪播圖設定
+        fetchHeroSettings(); 
         
         document.querySelectorAll('.reveal-left, .reveal-right, .fade-up').forEach(el => obs.observe(el));
         
@@ -765,17 +796,20 @@
     let heroTimer;
 
     function initHero() {
-    // 💡 防重複計時機制：每次初始化先清空舊計時器，杜絕閃爍
-    if (typeof heroTimer !== 'undefined' && heroTimer) {
-        clearTimeout(heroTimer);
-        heroTimer = null;
-    }
+        // 💡 防重複計時機制：每次初始化先清空舊計時器，杜絕閃爍
+        if (typeof heroTimer !== 'undefined' && heroTimer) {
+            clearTimeout(heroTimer);
+            heroTimer = null;
+        }
 
-    if (!slides || slides.length === 0) return;
+        if (!slides || slides.length === 0) return;
 
-    document.getElementById('hc-total').innerText = (slides.length < 10 ? "0" : "") + slides.length;
-    showHero(hIdx);
-    heroTimer = setTimeout(autoPlayHero, 6000);
+        document.getElementById('hc-total').innerText = (slides.length < 10 ? "0" : "") + slides.length;
+        showHero(hIdx);
+        heroTimer = setTimeout(autoPlayHero, 6000);
+
+        // 💡 載入完成後淡入顯示控制器，消除手機端初次渲染的跳動與閃爍
+        document.querySelector('.hero-controls')?.classList.add('loaded');
     }
 
     function showHero(index) {
@@ -790,7 +824,7 @@
         if (slides.length > 0) {
             slides[hIdx - 1].classList.add("active");
             
-            // 💡 這裡對應你原本的 hc-current，並加上防重複渲染機制，解決數字跳動閃爍
+            // 💡 加上防重複渲染機制，解決數字跳動閃爍
             const currentEl = document.getElementById('hc-current');
             const newText = (hIdx < 10 ? "0" : "") + hIdx;
             if (currentEl && currentEl.innerText !== newText) {
@@ -809,7 +843,7 @@
         heroTimer = setTimeout(autoPlayHero, 6000); 
     }
 
-    // 💡 需求 4：CMS 動態載入 6 張 Hero 相片與焦點位置 (Center/Left/Right)
+    // 💡 CMS 動態載入 6 張 Hero 相片與焦點位置 (Center/Left/Right)
     async function fetchHeroSettings() {
         try {
             const res = await fetch('content/hero.json');
@@ -915,7 +949,6 @@
             </div>`).join('');
         
         try {
-            // 💡 需求 1：修正 Fetch 邏輯 (支援 /data/journal.json 或 Decap CMS 自動產生的資料)
             const response = await fetch('/data/journal.json'); 
             if (!response.ok) throw new Error('無法讀取 Journal 資料');
             const posts = await response.json();
