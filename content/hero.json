@@ -1,27 +1,27 @@
 {
   "slides": [
     {
-      "focus": "right center",
+      "focus": "60% center",
       "image": "/images/uploads/hero-1.jpeg"
     },
     {
-      "focus": "center center",
+      "focus": "50% center",
       "image": "/images/uploads/hero-2.jpg"
     },
     {
-      "focus": "right center",
+      "focus": "20% center",
       "image": "/images/uploads/hero-3.jpg"
     },
     {
-      "focus": "center center",
+      "focus": "50% center",
       "image": "/images/uploads/hero-4.jpg"
     },
     {
-      "focus": "center center",
+      "focus": "50% center",
       "image": "/images/uploads/hero-5.jpg"
     },
     {
-      "focus": "left center",
+      "focus": "20% center",
       "image": "/images/uploads/hero-6.jpg"
     }
   ]
