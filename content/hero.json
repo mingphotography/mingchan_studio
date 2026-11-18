@@ -1,0 +1,28 @@
+{
+  "slides": [
+    {
+      "focus": "right center",
+      "image": "/images/uploads/hero-1.jpeg"
+    },
+    {
+      "focus": "center center",
+      "image": "/images/uploads/hero-2.jpg"
+    },
+    {
+      "focus": "right center",
+      "image": "/images/uploads/hero-3.jpg"
+    },
+    {
+      "focus": "center center",
+      "image": "/images/uploads/hero-4.jpg"
+    },
+    {
+      "focus": "center center",
+      "image": "/images/uploads/hero-5.jpg"
+    },
+    {
+      "focus": "left center",
+      "image": "/images/uploads/hero-6.jpg"
+    }
+  ]
+}
