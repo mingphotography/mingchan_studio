@@ -1,7 +1,7 @@
 ---
 title: Chloe & Perry | A Quiet Proposal at Seven Sisters
 date: 2026-11-19T03:16:00.000+08:00
-thumbnail: /images/uploads/854118421_1746067600208197_1563608004590367540_n.jpg
+thumbnail: /images/uploads/2026-11-21-sevensisters/854118421_1746067600208197_1563608004590367540_n.jpg
 snippet: When the landscape is grand enough, photography steps back. Documenting
   a private moment of love with distance, stillness, and precision.
 location: Seven Sisters, UK
