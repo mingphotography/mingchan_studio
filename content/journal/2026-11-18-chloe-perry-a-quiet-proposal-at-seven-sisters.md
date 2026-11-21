@@ -9,7 +9,7 @@ project_type: Pre-Wedding
 tag_hkppa: true
 tag_rosewood: false
 ---
-![Chloe & Perry](/images/uploads/2026-11-21-sevensisters/788439034_1703047231176901_5300623293601788190_n.jpg "A Quiet Proposal at Seven Sisters")
+![Chloe & Perry](/images/uploads/journal/2026-11-21-sevensisters/788439034_1703047231176901_5300623293601788190_n.jpg "A Quiet Proposal at Seven Sisters")
 
 **When Landscape Speaks for Itself**
 
@@ -17,7 +17,7 @@ The chalk cliffs and ocean breeze of Seven Sisters carry an atmosphere of timele
 
 When nature speaks with such presence, photography requires no theatrical posing or artificial instruction. When the landscape already tells a story, the rest is left to silent, precise observation.
 
-![Chloe & Perry](/images/uploads/2026-11-21-sevensisters/853707634_1746067743541516_29630437099014197_n.jpg "A Quiet Proposal at Seven Sisters")
+![Chloe & Perry](/images/uploads/journal/2026-11-21-sevensisters/853707634_1746067743541516_29630437099014197_n.jpg "A Quiet Proposal at Seven Sisters")
 
 **Stillness, Space, and Emotion**
 
@@ -27,7 +27,7 @@ By giving Chloe & Perry the space to fully immerse themselves in the tension, su
 
 When distance is maintained, emotion comes through with absolute honesty—the unscripted smiles, the tightly held hands, and the quiet relief after saying "Yes." Every fleeting feeling captured naturally in light and shadow.
 
-![Chloe & Perry](/images/uploads/2026-11-21-sevensisters/853433659_1746067650208192_605617716943069320_n.jpg "A Quiet Proposal at Seven Sisters")
+![Chloe & Perry](/images/uploads/journal/2026-11-21-sevensisters/853433659_1746067650208192_605617716943069320_n.jpg "A Quiet Proposal at Seven Sisters")
 
 **A Memory Preserved in Light**
 
