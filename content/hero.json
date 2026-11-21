@@ -2,27 +2,27 @@
   "slides": [
     {
       "focus": "60% center",
-      "image": "/images/uploads/assets/hero-1.jpg"
+      "image": "/images/uploads/hero/hero-1.jpg"
     },
     {
       "focus": "50% center",
-      "image": "/images/uploads/assets/hero-2.jpg"
+      "image": "/images/uploads/hero/hero-2.jpg"
     },
     {
       "focus": "20% center",
-      "image": "/images/uploads/assets/hero-3.jpg"
+      "image": "/images/uploads/hero/hero-3.jpg"
     },
     {
       "focus": "50% center",
-      "image": "/images/uploads/assets/hero-4.jpg"
+      "image": "/images/uploads/hero/hero-4.jpg"
     },
     {
       "focus": "50% center",
-      "image": "/images/uploads/assets/hero-5.jpg"
+      "image": "/images/uploads/hero/hero-5.jpg"
     },
     {
       "focus": "50% center",
-      "image": "/images/uploads/assets/hero-6.jpg"
+      "image": "/images/uploads/hero/hero-6.jpg"
     }
   ]
 }
