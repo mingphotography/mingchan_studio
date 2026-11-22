@@ -16,7 +16,7 @@ While technical clarity has its place, my own approach to evening documentation 
 
 ![Ambient warmth and subtle flash](/images/uploads/img_20261122_064548_776.jpg "Balancing artificial fill with the existing evening glow")
 
-> True lighting mastery leaves no trace of itself; it simply allows the room’s natural atmosphere to breathe while sculpting quiet depth across a face.
+> *True lighting mastery leaves no trace of itself; it simply allows the room’s natural atmosphere to breathe while sculpting quiet depth across a face.*
 
 When photographing a wedding banquet, the ambient glow—whether from candlelight, chandeliers, or dim architectural fixtures—is an inseparable part of the memory. Instead of erasing that warmth, I prefer to let off-camera flash weave quietly into the existing light.
 
