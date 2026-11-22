@@ -118,7 +118,7 @@
         
         .slide { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; height: 100dvh; opacity: 0; object-fit: cover; 
-            object-position: center center; 
+            object-position: var(--hero-pos-x, 50%) var(--hero-pos-y, 50%); 
             transform: scale(1.05); 
             transition: opacity 1.3s ease-in-out, transform 8s cubic-bezier(0.25, 1, 0.5, 1); 
         }
@@ -131,7 +131,7 @@
             margin: 0 auto; 
             z-index: 3; 
             position: relative; 
-            padding-bottom: 12vh; 
+            padding-bottom: 15vh; 
             padding-left: 32px; 
             padding-right: 32px; 
             pointer-events: none; 
@@ -167,7 +167,7 @@
            ========================================== */
         .hero-controls { 
             position: absolute; 
-            bottom: 3.5vh; 
+            bottom: 7.5vh; 
             left: 50%; 
             transform: translateX(-50%); 
             width: calc(100% - 100px);
@@ -224,20 +224,22 @@
             transition: width 6s linear;
         }
 
-        /* 手機橫向 (Landscape) 調整：防止頂部裁切並優化文字比例 */
-        @media (max-height: 500px) and (orientation: landscape) {
+        @media (max-height: 540px) and (orientation: landscape) {
+            .hero, .hero-img-box, .slide {
+                height: 100vh;
+                height: 100dvh;
+            }
             .slide {
-                object-position: center 22% !important;
+                object-position: var(--hero-pos-x, 50%) 16% !important;
                 transform: scale(1) !important;
             }
-            .hero-title { padding-bottom: 11vh; }
-            .hero-title h1 { font-size: clamp(28px, 6vw, 48px); margin-bottom: 0; }
-            .title-mask { margin-bottom: 8px; }
-            .slogan { font-size: 8.5px; line-height: 1.6; letter-spacing: 3px; }
-            .hero-controls { bottom: 14px; width: calc(100% - 50px); gap: 6px; }
+            .hero-title { padding-bottom: 10vh; }
+            .hero-title h1 { font-size: clamp(26px, 5.5vw, 46px); margin-bottom: 0; }
+            .title-mask { margin-bottom: 6px; }
+            .slogan { font-size: 8.5px; line-height: 1.55; letter-spacing: 3px; }
+            .hero-controls { bottom: 12px; width: calc(100% - 50px); gap: 6px; }
         }
 
-        /* 遮罩升起動畫 */
         @keyframes maskedRise {
             0% { opacity: 0; transform: translateY(105%); }
             100% { opacity: 1; transform: translateY(0); }
@@ -319,7 +321,7 @@
         
         .gallery-story-intro { max-width: 800px; margin: 0 auto 50px; text-align: center; opacity: 0; transform: translateY(30px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
         .gallery-story-intro h3 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-style: italic; font-weight: 300; margin-bottom: 15px; }
-        .gallery-story-intro p { font-size: 13px; line-height: 2; color: #666; font-weight: 300; }
+        .gallery-story-intro p { font-size: 13px; line-height: 2; color: #666; font-weight: 300; text-align: justify; }
 
         .sub-filter-btn { background: none; border: none; font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #aaa; cursor: pointer; padding: 8px 18px; transition: 0.4s; border-bottom: 1px solid transparent; }
         .sub-filter-btn:hover { color: #555; }
@@ -418,7 +420,7 @@
         .journal-card:hover .journal-card-img-wrap img { filter: grayscale(0%); transform: scale(1.03); }
         .journal-card-meta { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
         .journal-card-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-style: italic; font-weight: 300; margin-bottom: 10px; color: #1a1a1a; line-height: 1.25; }
-        .journal-card-snippet { font-size: 13px; line-height: 1.9; color: #555; font-weight: 300; margin-bottom: 16px; flex-grow: 1; }
+        .journal-card-snippet { font-size: 13px; line-height: 1.9; color: #555; font-weight: 300; margin-bottom: 16px; flex-grow: 1; text-align: justify; }
         .journal-card-link { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: #1a1a1a; border-bottom: 1px solid #1a1a1a; padding-bottom: 2px; align-self: flex-start; transition: opacity 0.3s ease; }
         .journal-card:hover .journal-card-link { opacity: 0.65; }
 
@@ -455,14 +457,15 @@
         }
         .story-share-btn:hover { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
 
-        .story-modal-body { font-size: 14px; line-height: 2; color: #333; font-weight: 300; }
-        .story-modal-body p { margin-bottom: 18px; }
+        .story-modal-body { font-size: 14px; line-height: 2; color: #333; font-weight: 300; text-align: justify; }
+        .story-modal-body p { margin-bottom: 18px; text-align: justify; }
         .story-modal-body h2, .story-modal-body h3, .story-modal-body h4 {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             font-weight: 300;
             color: #1a1a1a;
             margin: 28px 0 12px;
+            text-align: left;
         }
         .story-modal-body h2 { font-size: 28px; }
         .story-modal-body h3 { font-size: 23px; }
@@ -474,6 +477,7 @@
             font-style: italic;
             font-size: 19px;
             color: #555;
+            text-align: justify;
         }
         .story-inline-img {
             display: block;
@@ -569,7 +573,6 @@
             transform: scaleX(1);
         }
 
-        /* Mobile Packages Swipe Counter Dots */
         .packages-mobile-dots {
             display: none;
             justify-content: center;
@@ -594,7 +597,7 @@
         .voices-section .section-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; margin-bottom: 60px; }
         .stack-container { position: relative; width: 100%; max-width: 480px; height: 420px; margin: 0 auto; cursor: pointer; }
         .voice-card { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #fff; padding: 50px 40px; border: 1px solid rgba(26,26,26,0.08); display: flex; flex-direction: column; justify-content: center; box-shadow: 0 12px 35px rgba(0,0,0,0.05); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); text-align: left; transform-origin: center center; background-size: cover; background-position: center; }
-        .voice-card p { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; line-height: 1.7; color: #222; margin-bottom: 25px; position: relative; z-index: 2; }
+        .voice-card p { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; line-height: 1.7; color: #222; margin-bottom: 25px; position: relative; z-index: 2; text-align: justify;}
         .voice-author { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #777; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 15px; position: relative; z-index: 2; }
         .voice-card.removed { transform: translateX(-120%) translateY(-50px) rotate(-15deg) !important; opacity: 0 !important; pointer-events: none; }
 
@@ -764,9 +767,10 @@
         }
         .story-modal-cover {
             width: 100%;
-            max-height: 440px;
-            object-fit: cover;
-            margin-bottom: 24px;
+            height: auto;
+            max-height: 65vh;
+            object-fit: contain;
+            margin: 0 auto 24px;
             border-radius: 2px;
             display: block;
         }
@@ -1213,18 +1217,41 @@
 
 <script>
     // ==========================================
-    // [IMAGE PATH OPTIMIZER (LOCAL VS NETLIFY CDN)]
+    // [IMAGE PATH OPTIMIZER (LOCAL / LAN VS NETLIFY CDN)]
     // ==========================================
+    function isLocalOrLanEnvironment() {
+        if (window.location.protocol === 'file:') return true;
+        const h = (window.location.hostname || '').toLowerCase();
+        if (!h || h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || h === '::1' || h.endsWith('.local')) {
+            return true;
+        }
+        if (/^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(h)) return true;
+        if (/^192\.168\.\d{1,3}\.\d{1,3}$/.test(h)) return true;
+        const m172 = h.match(/^172\.(\d{1,3})\.\d{1,3}\.\d{1,3}$/);
+        if (m172 && Number(m172[1]) >= 16 && Number(m172[1]) <= 31) return true;
+        return false;
+    }
+
+    function normalizeAssetPath(rawPath) {
+        if (!rawPath) return '';
+        const trimmed = String(rawPath).trim();
+        if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:')) {
+            return trimmed;
+        }
+        return trimmed.replace(/^\/+/, '');
+    }
+
     function getOptimizedImgUrl(originalPath, width = 800) {
         if (!originalPath) return '';
-        if (originalPath.startsWith('http://') || originalPath.startsWith('https://')) {
-            return originalPath;
+        const trimmed = String(originalPath).trim();
+        if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:')) {
+            return trimmed;
         }
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        if (isLocal) {
-            return originalPath;
+        const relPath = normalizeAssetPath(trimmed);
+        if (isLocalOrLanEnvironment()) {
+            return relPath;
         }
-        const cleanPath = originalPath.startsWith('/') ? originalPath : '/' + originalPath;
+        const cleanPath = '/' + relPath;
         return `/.netlify/images?url=${encodeURIComponent(cleanPath)}&fm=webp&w=${width}&q=80`;
     }
 
@@ -1237,7 +1264,6 @@
             .replace(/"/g, '&quot;');
     }
 
-    // Native Web Share API Handler for Gallery Lightbox
     async function shareCurrentImage() {
         if (!currentPhotos || currentPhotos.length === 0) return;
         const shareData = {
@@ -1338,7 +1364,9 @@
         if (form) {
             const msgField = form.querySelector('textarea[name="message"]');
             if (msgField && !msgField.value.includes(activePromoSubject)) {
-                msgField.value = `${activePromoSubject}\n\n${msgField.value}`.trim();
+                msgField.value = `${activePromoSubject}
+
+${msgField.value}`.trim();
             }
         }
         if (inquirySection) {
@@ -1436,15 +1464,24 @@
         }
     });
 
+    function parseHeroFocusAxes(focusStr) {
+        const clean = (focusStr || '50% center').trim().split(/\s+/);
+        const rawX = clean[0] || '50%';
+        const rawY = clean[1] || 'center';
+        const posX = rawX === 'center' ? '50%' : rawX;
+        const posY = rawY === 'center' ? '50%' : rawY;
+        return { posX, posY };
+    }
+
     async function fetchHeroSettings() {
         const sliderBox = document.getElementById('heroSlider');
         let slideList = [
-            { image: 'images/assets/hero-1.jpg', focus: 'center center' },
-            { image: 'images/assets/hero-2.jpg', focus: 'center center' },
-            { image: 'images/assets/hero-3.jpg', focus: 'center center' },
-            { image: 'images/assets/hero-4.jpg', focus: 'center center' },
-            { image: 'images/assets/hero-5.jpg', focus: 'center center' },
-            { image: 'images/assets/hero-6.jpg', focus: 'center center' }
+            { image: 'images/uploads/hero/hero-1.jpg', focus: '50% center' },
+            { image: 'images/uploads/hero/hero-2.jpg', focus: '50% center' },
+            { image: 'images/uploads/hero/hero-3.jpg', focus: '50% center' },
+            { image: 'images/uploads/hero/hero-4.jpg', focus: '50% center' },
+            { image: 'images/uploads/hero/hero-5.jpg', focus: '50% center' },
+            { image: 'images/uploads/hero/hero-6.jpg', focus: '50% center' }
         ];
 
         try {
@@ -1459,15 +1496,15 @@
             console.log('Using default fallback slides.');
         }
 
-        sliderBox.innerHTML = slideList.map((s, idx) => `
-            <img src="${getOptimizedImgUrl(s.image, 1600)}" class="slide ${idx === 0 ? 'active' : ''}" style="object-position: ${s.focus || 'center center'};">
-        `).join('');
+        sliderBox.innerHTML = slideList.map((s, idx) => {
+            const { posX, posY } = parseHeroFocusAxes(s.focus);
+            return `<img src="${getOptimizedImgUrl(s.image, 1600)}" class="slide ${idx === 0 ? 'active' : ''}" style="--hero-pos-x: ${posX}; --hero-pos-y: ${posY};">`;
+        }).join('');
 
         hIdx = 1;
         initHero();
     }
 
-    // Scroll Nav & Fixed Toggle
     let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
         let st = window.pageYOffset || document.documentElement.scrollTop;
@@ -1546,7 +1583,7 @@
     function formatInlineMarkdown(text) {
         let html = escapeHtml(text);
         html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+        html = html.replace(/\*([^* \r\n]+)\*/g, '<em>$1</em>');
         html = html.replace(/\r?\n/g, '<br>');
         return html;
     }
@@ -1583,7 +1620,7 @@
             }
 
             if (/^>\s?/.test(block)) {
-                const quoteLines = block.split('\n').map(l => l.replace(/^>\s?/, '')).join('<br>');
+                const quoteLines = block.split('\n').map(l => l.replace(/^>\s?/, '')).join('\n');
                 return `<blockquote>${formatInlineMarkdown(quoteLines)}</blockquote>`;
             }
 
@@ -1754,7 +1791,7 @@
         try {
             let posts = [];
             try {
-                const jsonRes = await fetch(`/data/journal.json?t=${Date.now()}`);
+                const jsonRes = await fetch(`data/journal.json?t=${Date.now()}`);
                 if (jsonRes.ok) {
                     const jsonData = await jsonRes.json();
                     if (Array.isArray(jsonData) && jsonData.length > 0) {
@@ -1780,7 +1817,6 @@
                 renderedHtml: renderMarkdownToHtml(p.body || p.snippet || '')
             }));
 
-            // Preload initial 4 cover images to reduce display delay
             loadedJournalArticles.slice(0, JOURNAL_PAGE_SIZE).forEach(p => {
                 const preImg = new Image();
                 preImg.src = getOptimizedImgUrl(p.thumbnail || 'images/assets/cat-wedding.jpeg', 900);
@@ -1843,7 +1879,7 @@
         coverEl.alt = post.title;
 
         const bodyEl = document.getElementById('story-modal-body');
-        bodyEl.innerHTML = post.renderedHtml || renderMarkdownToHtml(post.body || post.snippet || '');
+        bodyEl.innerHTML = post.renderedHtml || renderMarkdownToHtml(post.body || p.snippet || '');
 
         renderMoreStories(index);
 
@@ -1895,13 +1931,13 @@
     const galleryNames = ['Wedding', 'Pre-Wedding', 'Portraits', 'Commercial'];
     
     const samplePhotos = [
-        'images/assets/cat-wedding.jpeg', 'images/assets/hero-1.jpg', 'images/assets/cat-pre-wedding.jpeg',
-        'images/assets/hero-2.jpg', 'images/assets/cat-portrait.jpeg', 'images/assets/hero-3.jpg',
-        'images/assets/cat-commercial.jpeg', 'images/assets/ming-portrait.jpeg', 'images/assets/hero-1.jpg',
-        'images/assets/cat-wedding.jpeg', 'images/assets/hero-2.jpg', 'images/assets/hero-3.jpg',
-        'images/assets/cat-portrait.jpeg', 'images/assets/ming-portrait.jpeg', 'images/assets/hero-1.jpg', 
-        'images/assets/cat-wedding.jpeg', 'images/assets/hero-2.jpg', 'images/assets/cat-pre-wedding.jpeg',
-        'images/assets/hero-3.jpg', 'images/assets/cat-commercial.jpeg', 'images/assets/cat-portrait.jpeg'
+        'images/assets/cat-wedding.jpeg', 'images/uploads/hero/hero-1.jpg', 'images/assets/cat-pre-wedding.jpeg',
+        'images/uploads/hero/hero-2.jpg', 'images/assets/cat-portrait.jpeg', 'images/uploads/hero/hero-3.jpg',
+        'images/assets/cat-commercial.jpeg', 'images/assets/ming-portrait.jpeg', 'images/uploads/hero/hero-1.jpg',
+        'images/assets/cat-wedding.jpeg', 'images/uploads/hero/hero-2.jpg', 'images/uploads/hero/hero-3.jpg',
+        'images/assets/cat-portrait.jpeg', 'images/assets/ming-portrait.jpeg', 'images/uploads/hero/hero-1.jpg', 
+        'images/assets/cat-wedding.jpeg', 'images/uploads/hero/hero-2.jpg', 'images/assets/cat-pre-wedding.jpeg',
+        'images/uploads/hero/hero-3.jpg', 'images/assets/cat-commercial.jpeg', 'images/assets/cat-portrait.jpeg'
     ];
 
     const pData = {
@@ -1910,17 +1946,17 @@
             folders: [
                 { category: 'UK', location: 'London', folder: 'Smith & Angel', loc: 'LONDON', cover: 'images/assets/cat-wedding.jpeg', photos: samplePhotos },
                 { category: 'Hong Kong', location: 'Central', folder: 'Paul & Winnie', loc: 'CENTRAL', cover: 'images/assets/cat-pre-wedding.jpeg', photos: samplePhotos },
-                { category: 'Destinations', location: 'Paris', folder: 'Julian & Claire', loc: 'PARIS', cover: 'images/assets/hero-3.jpg', photos: samplePhotos }
+                { category: 'Destinations', location: 'Paris', folder: 'Julian & Claire', loc: 'PARIS', cover: 'images/uploads/hero/hero-3.jpg', photos: samplePhotos }
             ]
         },
         'prewedding': {
             title: 'Pre-Wedding', intro: 'Meticulously curated sessions worldwide.',
             folders: [
                 { category: 'UK', location: 'London', folder: 'James & Sophia', loc: 'LONDON', cover: 'images/assets/cat-pre-wedding.jpeg', photos: samplePhotos },
-                { category: 'UK', location: 'Edinburgh', folder: 'William & Kate', loc: 'EDINBURGH', cover: 'images/assets/hero-1.jpg', photos: samplePhotos },
-                { category: 'Destinations', location: 'Paris', folder: 'Luc & Marie', loc: 'PARIS', cover: 'images/assets/hero-3.jpg', photos: samplePhotos },
+                { category: 'UK', location: 'Edinburgh', folder: 'William & Kate', loc: 'EDINBURGH', cover: 'images/uploads/hero/hero-1.jpg', photos: samplePhotos },
+                { category: 'Destinations', location: 'Paris', folder: 'Luc & Marie', loc: 'PARIS', cover: 'images/uploads/hero/hero-3.jpg', photos: samplePhotos },
                 { category: 'Destinations', location: 'Italy', folder: 'Marco & Elena', loc: 'ITALY', cover: 'images/assets/cat-portrait.jpeg', photos: samplePhotos },
-                { category: 'Hong Kong', location: 'Hong Kong', folder: 'David & Karen', loc: 'HONG KONG', cover: 'images/assets/hero-2.jpg', photos: samplePhotos },
+                { category: 'Hong Kong', location: 'Hong Kong', folder: 'David & Karen', loc: 'HONG KONG', cover: 'images/uploads/hero/hero-2.jpg', photos: samplePhotos },
                 { category: 'Studio', location: 'Studio', folder: 'Arthur & Grace', loc: 'STUDIO', cover: 'images/assets/cat-wedding.jpeg', photos: samplePhotos }
             ]
         },
@@ -1928,7 +1964,7 @@
             title: 'Portraits', intro: 'Preserving the profound chapters of life with intimacy.',
             folders: [
                 { category: 'Family', folder: 'The Chens', loc: 'KOWLOON, HK', cover: 'images/assets/cat-portrait.jpeg', photos: samplePhotos },
-                { category: 'Maternity', folder: 'Sarah & Tom', loc: 'STUDIO', cover: 'images/assets/hero-1.jpg', photos: samplePhotos },
+                { category: 'Maternity', folder: 'Sarah & Tom', loc: 'STUDIO', cover: 'images/uploads/hero/hero-1.jpg', photos: samplePhotos },
                 { category: 'Engagement & Portrait', folder: 'Evelyn Story', loc: 'LONDON', cover: 'images/assets/ming-portrait.jpeg', photos: samplePhotos },
                 { category: 'Graduation', folder: 'Oxford Class', loc: 'UK', cover: 'images/assets/cat-pre-wedding.jpeg', photos: samplePhotos }
             ]
@@ -1938,9 +1974,9 @@
             folders: [
                 { category: 'Fashion & Portrait', folder: 'VOGUE Editorial', loc: 'MILAN', cover: 'images/assets/cat-commercial.jpeg', photos: samplePhotos },
                 { category: 'Corporate', folder: 'Executive Team', loc: 'HK', cover: 'images/assets/cat-wedding.jpeg', photos: samplePhotos },
-                { category: 'Food', folder: 'Michelin Star', loc: 'HK', cover: 'images/assets/hero-2.jpg', photos: samplePhotos },
-                { category: 'Interior', folder: 'The Peninsula', loc: 'HK', cover: 'images/assets/hero-3.jpg', photos: samplePhotos },
-                { category: 'Advertising', folder: 'Aura Jewellery', loc: 'PARIS', cover: 'images/assets/hero-1.jpg', photos: samplePhotos }
+                { category: 'Food', folder: 'Michelin Star', loc: 'HK', cover: 'images/uploads/hero/hero-2.jpg', photos: samplePhotos },
+                { category: 'Interior', folder: 'The Peninsula', loc: 'HK', cover: 'images/uploads/hero/hero-3.jpg', photos: samplePhotos },
+                { category: 'Advertising', folder: 'Aura Jewellery', loc: 'PARIS', cover: 'images/uploads/hero/hero-1.jpg', photos: samplePhotos }
             ]
         }
     };
@@ -2253,7 +2289,6 @@
     window.nextSingleImage = () => { resetZoomState(); if(currentIndex < currentPhotos.length - 1) currentIndex++; else currentIndex = 0; updateSingleImageView(true); };
     window.goToSingleImage = (idx) => { if (idx === currentIndex) return; resetZoomState(); currentIndex = idx; updateSingleImageView(true); };
 
-    // Swipe
     let touchstartX = 0; let touchendX = 0;
     document.getElementById('sl-touch-area').addEventListener('touchstart', e => { if (!isZoomed && e.touches.length === 1) touchstartX = e.touches[0].clientX; });
     document.getElementById('sl-touch-area').addEventListener('touchend', e => { if (!isZoomed) { touchendX = e.changedTouches[0].clientX; handleSwipe(); }});
