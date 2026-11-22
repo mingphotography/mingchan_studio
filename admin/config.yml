@@ -24,18 +24,26 @@ collections:
             widget: "list"
             hint: "💡 提示：按「Add」新增相片；可以隨時用滑鼠上下拖曳來調整輪播順序。"
             fields:
-              - { label: "🖼️ 選擇相片檔", name: "image", widget: "image", required: true, hint: "建議上傳高清橫向大圖" }
+              - {
+                  label: "🖼️ 選擇相片檔",
+                  name: "image",
+                  widget: "image",
+                  required: true,
+                  media_folder: "/images/uploads/hero",
+                  public_folder: "/images/uploads/hero",
+                  hint: "建議上傳高清橫向大圖"
+                }
               - { label: "📍 相片主題 / 地點文字 (可選)", name: "title", widget: "string", required: false, hint: "例如：SEVEN SISTERS, UK" }
               - {
                   label: "🎯 手機版主體焦點位置 (5級精準微調)",
                   name: "focus",
                   widget: "select",
                   options: [
-                    { label: "極左偏焦 (20% - 適合主角在極左側，如雪茄男士)", value: "20% center" },
-                    { label: "微左偏焦 (40% - 適合主角在左側三分線，如珠寶廣告)", value: "40% center" },
+                    { label: "極左偏焦 (20% - 適合主角在極左側)", value: "20% center" },
+                    { label: "微左偏焦 (40% - 適合主角在左側三分線)", value: "40% center" },
                     { label: "正中焦點 (50% - 預設置中)", value: "50% center" },
-                    { label: "微右偏焦 (60% - 適合主角在右側，如樓梯新人)", value: "60% center" },
-                    { label: "極右偏焦 (80% - 適合主角在極右側，如粉紅花海)", value: "80% center" }
+                    { label: "微右偏焦 (60% - 適合主角在右側三分線)", value: "60% center" },
+                    { label: "極右偏焦 (80% - 適合主角在極右側)", value: "80% center" }
                   ],
                   default: "50% center",
                   hint: "💡 請根據主角在橫相中的水平位置選擇對應百分比（參考對照檔：/images/assets/hero-focus-guide.png）。"
@@ -98,7 +106,13 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Cover Image", name: "thumbnail", widget: "image" }
+      - {
+          label: "Cover Image",
+          name: "thumbnail",
+          widget: "image",
+          media_folder: "/images/uploads/journal/{{year}}-{{month}}-{{day}}-{{slug}}",
+          public_folder: "/images/uploads/journal/{{year}}-{{month}}-{{day}}-{{slug}}"
+        }
       - { label: "Snippet (Short Intro)", name: "snippet", widget: "text", required: false }
       - { label: "Location", name: "location", widget: "string", required: false }
       - label: "Project Type"
@@ -108,7 +122,13 @@ collections:
         required: false
       - { label: "Member of HKPPA", name: "tag_hkppa", widget: "boolean", default: false, required: false }
       - { label: "Rosewood Approved", name: "tag_rosewood", widget: "boolean", default: false, required: false }
-      - { label: "Body Text", name: "body", widget: "markdown" }
+      - {
+          label: "Body Text",
+          name: "body",
+          widget: "markdown",
+          media_folder: "/images/uploads/journal/{{year}}-{{month}}-{{day}}-{{slug}}",
+          public_folder: "/images/uploads/journal/{{year}}-{{month}}-{{day}}-{{slug}}"
+        }
 
   # ==========================================
   # 4. 限時優惠設定 (Promotion Settings)
@@ -122,6 +142,13 @@ collections:
         format: "json"
         fields:
           - { label: "🔔 是否啟用優惠彈窗？ (Show Promotion)", name: "is_active", widget: "boolean", default: false, hint: "開啟後（打勾），訪客瀏覽主頁時會自動彈出推廣海報；關閉即隱藏。" }
-          - { label: "🖼️ 優惠宣傳海報 (Poster Image)", name: "poster", widget: "image", hint: "上傳你要向客人展示的宣傳海報圖片。" }
+          - {
+              label: "🖼️ 優惠宣傳海報 (Poster Image)",
+              name: "poster",
+              widget: "image",
+              media_folder: "/images/uploads/promo",
+              public_folder: "/images/uploads/promo",
+              hint: "上傳你要向客人展示的宣傳海報圖片。"
+            }
           - { label: "📅 優惠截止日期 (Expiry Date)", name: "expiry_date", widget: "datetime", format: "YYYY-MM-DD", hint: "設定優惠活動的最後有效日期。" }
           - { label: "✉️ 預設查詢電郵主旨 (Email Subject)", name: "subject", widget: "string", default: "Inquiry about Promotion", hint: "當客人點擊優惠海報的查詢時，自動帶入電郵的主旨文字。" }
