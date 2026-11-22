@@ -28,4 +28,4 @@ By feathering the light and respecting the shadows, the frame retains the genuin
 
 ![Evening celebration frame](/images/uploads/journal/2026-10-19-reception-flash/IMG_20261122_064555_748.jpg "Quiet exchanges as the evening unfolds")
 
-![Evening celebration frame](/images/uploads/IMG_20261122_064555_748.jpg "Unscripted moments held in soft, directional light")
+![Evening celebration frame](/images/uploads/journal/2026-10-19-reception-flash/IMG_20261122_064555_748.jpg "Unscripted moments held in soft, directional light")
