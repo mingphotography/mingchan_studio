@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Ming Chan | Orchestrating Timeless Narratives</title>
-    <meta name="description" content="Ming Chan Photography - Orchestrating timeless luxury weddings, intimate portraits, and high-impact commercial visual narratives with artistic precision.">
+    <meta name="description" content="Ming Chan Photography — Luxury wedding photographer in Hong Kong and the UK, recognized as a Hong Kong top-tier wedding photographer. Former Canon Pro Ambassador, Canon Photo Marathon judge, Hong Kong Top 10 Wedding Photographers judge, Rosewood Hong Kong Recommended Photographer, and The Ritz-Carlton, Hong Kong wedding photography vendor.">
 
     <!-- Open Graph / Social Media Preview Meta Tags -->
     <meta property="og:type" content="website">
@@ -298,7 +298,37 @@
         .profile-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-style: italic; font-weight: 300; margin-bottom: 30px; border-bottom: 1px solid #eaeaea; padding-bottom: 20px; }
         .profile-text p { font-size: 15px; line-height: 2.2; text-align: justify; margin-bottom: 25px; color: #333; }
         .profile-text p:first-of-type::first-letter { font-family: 'Cormorant Garamond', serif; float: left; font-size: 80px; line-height: 0.7; padding-right: 15px; margin-top: 5px; color: #000; font-style: italic; }
-
+        .profile-credentials {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(26, 26, 26, 0.12);
+        }
+        .profile-credentials-label {
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .profile-credentials-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 30px;
+        }
+        .profile-credentials-list li {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #444;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 767px) {
+            .profile-credentials-list { grid-template-columns: 1fr; gap: 8px; }
+        }
         .services-section { padding: 120px 10%; background: #fff; border-top: 1px solid #eaeaea; }
         .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px 80px; max-width: 1200px; margin: 80px auto 0; text-align: left; }
         .service-card { border-top: 1px solid #eee; padding-top: 25px; }
@@ -870,6 +900,20 @@
             .cookie-consent button { margin-left: 0; }
         }
     </style>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ming Chan",
+        "jobTitle": "Luxury Wedding & Commercial Photographer",
+        "description": "Luxury wedding photographer in Hong Kong and the UK, recognized as a Hong Kong top-tier wedding photographer. Former Canon Pro Ambassador, Canon Photo Marathon judge, Hong Kong Top 10 Wedding Photographers awards judge, multi-time Top and Best Wedding Photographer, Rosewood Hong Kong Recommended Photographer, and The Ritz-Carlton, Hong Kong wedding photography vendor.",
+        "email": "mingchanphoto@gmail.com",
+        "sameAs": [
+            "https://www.instagram.com/ming__photography",
+            "https://www.instagram.com/ming.chan.studio"
+        ]
+        }
+    </script>
 </head>
 <body>
 
@@ -916,8 +960,21 @@
     <div class="profile-image-wrap reveal-left"><img src="images/assets/ming-portrait.jpeg" alt="Ming Chan"></div>
     <div class="profile-text fade-up" id="perspectiveTextBox">
         <h2>The Perspective</h2>
-        <p class="scroll-ink-text">From the quiet intensity of film sets in Hong Kong to the raw, honest narratives of life in the UK. Ming Chan brings over two decades of expertise to every frame, specializing in the orchestration of light, shadow, and unscripted soul.</p>
-        <p class="scroll-ink-text">As a former Canon Pro Ambassador (HK), Ming’s visual language is refined through the demands of cinematic storytelling. He believes the most profound moments are not staged, but observed—translating fleeting emotions into timeless visual stories.</p>
+        <p class="scroll-ink-text">From the quiet intensity of film sets in Hong Kong to the raw, honest narratives of life in the UK. Ming Chan brings over two decades of expertise as a luxury wedding photographer across Hong Kong and the UK, specializing in the orchestration of light, shadow, and unscripted soul.</p>
+        <p class="scroll-ink-text">Refined through the demands of cinematic storytelling, Ming’s visual language is rooted in quiet observation—believing the most profound moments are never staged, only witnessed and preserved as timeless heirlooms.</p>
+
+        <div class="profile-credentials">
+            <span class="profile-credentials-label">Selected Recognition &amp; Credentials</span>
+            <ul class="profile-credentials-list">
+                <li>Hong Kong Top-Tier Luxury Wedding Photographer</li>
+                <li>Multi-Time Top &amp; Best Wedding Photographer</li>
+                <li>Rosewood Hong Kong Recommended Photographer</li>
+                <li>The Ritz-Carlton, Hong Kong Wedding Vendor</li>
+                <li>Hong Kong Top 10 Wedding Photographers Judge</li>
+                <li>Canon Photo Marathon Judge</li>
+                <li>Former Canon Pro Ambassador</li>
+            </ul>
+        </div>
     </div>
 </section>
 
