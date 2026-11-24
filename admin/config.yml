@@ -120,8 +120,6 @@ collections:
         widget: "select"
         options: ["Pre-Wedding", "Wedding Day", "Portrait", "Commercial", "Editorial"]
         required: false
-      - { label: "Member of HKPPA", name: "tag_hkppa", widget: "boolean", default: false, required: false }
-      - { label: "Rosewood Approved", name: "tag_rosewood", widget: "boolean", default: false, required: false }
       - {
           label: "Body Text",
           name: "body",
